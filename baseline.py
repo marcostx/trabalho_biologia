@@ -22,28 +22,28 @@ def twin(km):
     return Seq.reverse_complement(km)
 
 def kmers(seq,k):
-    for i in range(len(seq)-k+1):
-        yield seq[i:i+k]
+	kmer=[]
+	for i in range(len(seq)-k+1):
+		kmer.append(seq[i:i+k])
+
+	return kmer
 
 
-def find_kmers(fn,k=3,limit=1):
+def binary_representation(fn,k=3,limit=1):
     d = collections.defaultdict(int)
+    dict_words = create_dict_words()
     
-    
-    seq_l = fn.split('N')
-    for seq in seq_l:
-    	print(seq,k)
+    seq_l = fn
+    kms = kmers(seq_l,k)
 
-        for km in kmers(seq,k):
-        	#print(km)
-        	d[km] +=1
+    representation=[]
+    for idx in range(0,len(kms)-1):
+    	f_ =  dict_words[kms[idx]]
+    	s_ = dict_words[kms[idx+1]]
+    	representation.append([f_,s_])
         
-        seq = twin(seq)
-        for km in kmers(seq,k):
-            d[km] += 1
+    return representation
 
-    d1 = [x for x in d if d[x] <= limit]
-    for x in d1:
-        del d[x]
-
-    return d
+if __name__ == '__main__':
+	a='ACCGATTATGCA'
+	binary_representation(a)
