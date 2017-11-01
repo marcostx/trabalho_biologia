@@ -22,7 +22,6 @@ def load_csv(input_file='dataset.csv'):
     		y.append(classes)
 
 
-
 #if __name__ == '__main__':
 #	dataset = load_csv(sys.argv[1])
 
