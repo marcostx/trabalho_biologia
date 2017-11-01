@@ -1,5 +1,21 @@
 import collections, sys
 from Bio import Seq, SeqIO, SeqRecord
+import itertools
+import numpy as np
+
+def create_dict_words():
+	kmer=3
+	nucleotides = ['A', 'T', 'G', 'C']
+	words=[]
+	binary_words={}
+	combinations = itertools.product(*itertools.repeat(nucleotides, 3))
+	for idx,j in enumerate(combinations):
+	    words.append(''.join(j))
+	    _ = np.zeros((len(nucleotides)*len(nucleotides)*len(nucleotides)))
+	    _[idx] = 1.0
+	    binary_words[''.join(j)]=_
+
+	return binary_words
 
 
 def twin(km):
@@ -10,7 +26,7 @@ def kmers(seq,k):
         yield seq[i:i+k]
 
 
-def build(fn,k=3,limit=1):
+def find_kmers(fn,k=3,limit=1):
     d = collections.defaultdict(int)
     
     
@@ -31,12 +47,3 @@ def build(fn,k=3,limit=1):
         del d[x]
 
     return d
-
-    
-#if __name__ == "__main__":
-#    if len(sys.argv) < 2: exit("args: <k> ...")
-#    k = int(sys.argv[1])
-#    fn = 'AAGTTGCGCTAGGGTTAAACTCGGCTAACTCGATTAACATCAGCCGTTTGGTGGCGCAGATTTGCTACTA'
-#    d = build(fn,k,1)
-    
-    
