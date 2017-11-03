@@ -1,11 +1,12 @@
 import collections, sys
 from Bio import Seq, SeqIO, SeqRecord
 import itertools
+from parser import load_csv
 import numpy as np
 
 def create_dict_words():
 	kmer=3
-	nucleotides = ['A', 'T', 'G', 'C']
+	nucleotides = ['a', 't', 'g', 'c']
 	words=[]
 	binary_words={}
 	combinations = itertools.product(*itertools.repeat(nucleotides, 3))
@@ -38,12 +39,24 @@ def binary_representation(fn,k=3,limit=1):
 
     representation=[]
     for idx in range(0,len(kms)-1):
-    	f_ =  dict_words[kms[idx]]
-    	s_ = dict_words[kms[idx+1]]
-    	representation.append([f_,s_])
-        
-    return representation
+    	f_ =  np.array(dict_words[kms[idx]])
+    	s_ = np.array(dict_words[kms[idx+1]])
+
+    	representation.append(np.stack((f_,s_)))
+    
+
+    return np.array(representation)
 
 if __name__ == '__main__':
-	a='ACCGATTATGCA'
-	binary_representation(a)
+	assert len(sys.argv[1]) > 1
+
+	X,y = load_csv(sys.argv[1])
+
+	
+
+	#a='ACCGATTATGCA'
+	X_binarized = [ binary_representation(item) for item in X]
+	X_binarized = np.array(X_binarized)
+	
+	print(X_binarized[0].shape)
+	

@@ -13,7 +13,9 @@ def load_csv(input_file='dataset.csv'):
 
     raw_data = pd.read_csv(input_file)
     for idx, val in enumerate(raw_data.values):
-    	X.append(raw_data.sequence[idx])
+    	
+        # removing \t\t
+        X.append(raw_data.sequence[idx][5:])
     	if not raw_data.target[idx] in avaible:
     		avaible.append(raw_data.target[idx])
     		classes+=1
@@ -21,7 +23,7 @@ def load_csv(input_file='dataset.csv'):
     	else:
     		y.append(classes)
 
-
+    return X,y
 #if __name__ == '__main__':
 #	dataset = load_csv(sys.argv[1])
 
