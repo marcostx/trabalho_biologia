@@ -15,15 +15,17 @@ def load_csv(input_file='dataset.csv'):
     for idx, val in enumerate(raw_data.values):
     	
         # removing \t\t
-        X.append(raw_data.sequence[idx][5:])
+        preprocessed = raw_data.sequence[idx].replace("\t","")
+        preprocessed = preprocessed.replace(" ","")
+        X.append(preprocessed)
     	if not raw_data.target[idx] in avaible:
     		avaible.append(raw_data.target[idx])
     		classes+=1
     		y.append(classes)
     	else:
     		y.append(classes)
-
-    return X,y
+    
+    return X,np.array(y)
 #if __name__ == '__main__':
 #	dataset = load_csv(sys.argv[1])
 
