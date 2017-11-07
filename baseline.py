@@ -9,7 +9,11 @@ from keras.constraints import maxnorm
 from keras.optimizers import SGD
 from keras.layers import Conv2D, MaxPooling2D
 from keras.optimizers import Adam
+from sklearn.model_selection import train_test_split
 import itertools
+from sklearn.metrics import accuracy_score,precision_score,recall_score,f1_score
+from keras.utils import np_utils
+
 
 def create_dict_words():
 	kmer=3
@@ -57,7 +61,7 @@ def binary_representation(fn,k=3,limit=1):
 def create_baseline_model(num_classes,inp_shape):
 	
 	model = Sequential()
-	model.add(Conv2D(32, kernel_size=(2, 2),activation='relu', input_shape=(inp_shape[1], inp_shape[0], inp_shape[2])))
+	model.add(Conv2D(32, kernel_size=(1, 1),activation='relu', input_shape=(inp_shape[1], inp_shape[0], inp_shape[2])))
 	model.add(MaxPooling2D(pool_size=(1, 1)))
 	model.add(Conv2D(32, kernel_size=(2, 2),activation='relu'))
 	model.add(MaxPooling2D(pool_size=(1, 1)))
@@ -84,8 +88,32 @@ if __name__ == '__main__':
 	X_binarized = np.array(X_binarized)
 
 	inp_shape = X_binarized.shape[1:]
-
+	X_binarized = X_binarized.reshape((X_binarized.shape[0],X_binarized.shape[2],X_binarized.shape[1],X_binarized.shape[3]))
 	
-	model = create_baseline_model(2,inp_shape)
+
+	X_train, X_test, y_train, y_test = train_test_split(X_binarized, y, test_size=0.33, random_state=42)
+
+	y_train = np_utils.to_categorical(y_train)
+	y_test_ = np_utils.to_categorical(y_test)
+
+	num_classes = y_train.shape[1]
+
+	model,epochs = create_baseline_model(num_classes,inp_shape)
+
+	seed = 7
+	np.random.seed(seed)
+	model.fit(X_train, y_train, validation_data=(X_test, y_test_), nb_epoch=epochs, batch_size=50)
+	# Final evaluation of the model
+	pred = model.predict(X_test, verbose=0)
+	pred = [np.argmax(item) for item in pred]
+
+	print("accuracy : ", accuracy_score(y_test, pred ) )
+	print("precision : ", precision_score(y_test, pred, average='weighted' ) )
+	print("recall : ", recall_score(y_test, pred,average='weighted' ) )
+	print("f1 : ", f1_score(y_test, pred,average='weighted' ) )
+	print("\n")
+
+
+
 	
 	
