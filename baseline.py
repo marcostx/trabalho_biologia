@@ -13,6 +13,7 @@ from sklearn.model_selection import train_test_split
 import itertools
 from sklearn.metrics import accuracy_score,precision_score,recall_score,f1_score
 from keras.utils import np_utils
+from keras.layers.recurrent import LSTM
 
 
 def create_dict_words():
@@ -53,7 +54,8 @@ def binary_representation(fn,k=3,limit=1):
     	f_ =  np.array(dict_words[kms[idx]])
     	s_ = np.array(dict_words[kms[idx+1]])
 
-    	representation.append(np.stack((f_,s_)))
+    	representation.append(np.append(f_,s_))
+
     
     
     return np.array(representation)
@@ -77,6 +79,23 @@ def create_baseline_model(num_classes,inp_shape):
 
 	return model, epochs
 
+def create_reccurent_model(num_classes,inp_shape):
+	epochs = 120
+
+	model = Sequential()
+	model.add(LSTM(32, return_sequences=True,
+               input_shape=(inp_shape[2], inp_shape[1])))  # returns a sequence of vectors of dimension 32
+	model.add(LSTM(32, return_sequences=True))  # returns a sequence of vectors of dimension 32
+	model.add(LSTM(32))  # return a single vector of dimension 32
+	model.add(Dense(num_classes, activation='softmax'))
+
+	model.compile(loss='categorical_crossentropy',
+	              optimizer='rmsprop',
+	              metrics=['accuracy'])
+	
+
+	return model, epochs
+
 if __name__ == '__main__':
 	assert len(sys.argv[1]) > 1
 
@@ -87,8 +106,10 @@ if __name__ == '__main__':
 	X_binarized = [ binary_representation(item) for item in X]
 	X_binarized = np.array(X_binarized)
 
+	X_binarized = X_binarized.reshape((X_binarized.shape[0],X_binarized.shape[1],X_binarized.shape[2],1))
 	inp_shape = X_binarized.shape[1:]
-	X_binarized = X_binarized.reshape((X_binarized.shape[0],X_binarized.shape[2],X_binarized.shape[1],X_binarized.shape[3]))
+	print(inp_shape)
+	exit()
 	
 
 	X_train, X_test, y_train, y_test = train_test_split(X_binarized, y, test_size=0.33, random_state=42)
@@ -98,7 +119,8 @@ if __name__ == '__main__':
 
 	num_classes = y_train.shape[1]
 
-	model,epochs = create_baseline_model(num_classes,inp_shape)
+	#model,epochs = create_baseline_model(num_classes,inp_shape)
+	model,epochs = create_reccurent_model(num_classes,inp_shape)
 
 	seed = 7
 	np.random.seed(seed)
