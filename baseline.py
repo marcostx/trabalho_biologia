@@ -9,7 +9,7 @@ from keras.layers import Dense, Dropout, Flatten
 from keras.constraints import maxnorm
 from keras.optimizers import SGD
 from keras.layers import Conv2D, MaxPooling2D
-from keras.optimizers import Adam
+from keras.optimizers import Adam,RMSprop
 from sklearn.model_selection import train_test_split
 import itertools
 from sklearn.metrics import accuracy_score,precision_score,recall_score,f1_score
@@ -46,13 +46,16 @@ def create_reccurent_model(num_classes,inp_shape):
 	decay = lrate/epochs
 
 	model = Sequential()
-	model.add(LSTM(32, return_sequences=False,
+	model.add(SimpleRNN(100, activation='relu',
+		kernel_initializer=initializers.RandomNormal(stddev=0.01),
+		recurrent_initializer=initializers.Identity(gain=1.0),
                input_shape=inp_shape[1:]))
+	
 	model.add(Dense(num_classes, activation='softmax'))
 	
-	sgd = Adam(lr=lrate, epsilon=1e-08, decay=decay)
-	model.compile(loss='categorical_crossentropy',
-	              optimizer=sgd,
+	rms = RMSprop(lr=lrate)
+	model.compile(loss='binary_crossentropy',
+	              optimizer=rms,
 	              metrics=['accuracy'])
 	
 
@@ -89,7 +92,7 @@ if __name__ == '__main__':
 	seed = 7
 	np.random.seed(seed)
 	
-	model.fit(X_train, y_train, validation_data=(X_test, y_test_), nb_epoch=epochs, batch_size=50)
+	model.fit(X_train, y_train, validation_data=(X_test, y_test_), nb_epoch=epochs, batch_size=12)
 	# Final evaluation of the model
 	pred = model.predict(X_test, verbose=0)
 	pred = [np.argmax(item) for item in pred]
