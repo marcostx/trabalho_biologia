@@ -5,7 +5,7 @@ from parser import load_csv
 import numpy as np
 import argparse
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten
+from keras.layers import Dense, Dropout, Flatten,Embedding
 from keras.constraints import maxnorm
 from keras.optimizers import SGD
 from keras.layers import Conv2D, MaxPooling2D
@@ -46,13 +46,13 @@ def create_reccurent_model(num_classes,inp_shape):
 	decay = lrate/epochs
 
 	model = Sequential()
-	model.add(LSTM(32, return_sequences=False,
-               input_shape=inp_shape[1:]))
+	model.add(Embedding(100, 32, input_length=inp_shape[1]))
+	model.add(LSTM(100))
 	model.add(Dense(num_classes, activation='softmax'))
 	
-	sgd = Adam(lr=lrate, epsilon=1e-08, decay=decay)
+	
 	model.compile(loss='categorical_crossentropy',
-	              optimizer=sgd,
+	              optimizer='adam',
 	              metrics=['accuracy'])
 	
 

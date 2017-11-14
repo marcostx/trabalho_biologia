@@ -22,7 +22,7 @@ def preprocess(X):
 	X_binarized = [ binary_representation(item) for item in X]
 	X_binarized = np.array(X_binarized)
 
-	X_binarized = X_binarized.reshape((X_binarized.shape[0],X_binarized.shape[1],1))
+	#X_binarized = X_binarized.reshape((X_binarized.shape[0],X_binarized.shape[1]))
 
 	return X_binarized
 
