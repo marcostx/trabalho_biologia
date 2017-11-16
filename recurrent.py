@@ -28,12 +28,12 @@ from utils import *
 
 
 def create_recurrent_model(num_classes):
-    epochs = 25
+    epochs = 50
 
     print 'building model'
 
     model = Sequential()
-    model.add(Conv1D(activation="relu", input_shape=(57, 4), padding="valid", strides=1, filters=200, kernel_size=3))
+    model.add(Conv1D(activation="relu", input_shape=(60, 4), padding="valid", strides=1, filters=200, kernel_size=3))
 
     model.add(MaxPooling1D(strides=2, pool_size=2))
     model.add(Dropout(0.2))
@@ -41,7 +41,7 @@ def create_recurrent_model(num_classes):
 
     model.add(Dropout(0.5))
     model.add(Flatten())
-    model.add(Dense(900, activation='relu'))
+    model.add(Dense(300, activation='relu'))
 
     model.add(Dense(num_classes, activation='softmax'))
 
@@ -59,7 +59,9 @@ if __name__ == '__main__':
 
     X, y = load_csv(ARGS.input_dataset)
 
+
     X = get_binary_words(X)
+
     y = to_categorical(y)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
@@ -67,9 +69,12 @@ if __name__ == '__main__':
     model, epochs = create_recurrent_model(y.shape[1])
 
     model.fit(X_train, y_train, batch_size=30, epochs=epochs, shuffle=True, validation_data=(X_test, y_test))
+
     pred = model.predict(X_test, verbose=0)
+
     pred = [np.argmax(item) for item in pred]
     y_test = [np.argmax(item) for item in y_test]
+    print(pred,y_test)
 
 
     print("accuracy : ", accuracy_score(y_test, pred))
