@@ -5,7 +5,7 @@ from parser import load_csv
 import numpy as np
 import argparse
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten
+from keras.layers import Dense, Dropout, Flatten,Embedding
 from keras.constraints import maxnorm
 from keras.optimizers import SGD
 from keras.layers import Conv2D, MaxPooling2D
@@ -15,7 +15,7 @@ import itertools
 from sklearn.metrics import accuracy_score,precision_score,recall_score,f1_score
 from keras.utils import np_utils
 from keras.layers.recurrent import LSTM
-from keras.layers import SimpleRNN
+from keras.layers import SimpleRNN,Bidirectional
 from keras import initializers
 from utils import *
 
@@ -40,22 +40,22 @@ def create_baseline_model(num_classes,inp_shape):
 	return model, epochs
 
 def create_reccurent_model(num_classes,inp_shape):
-	epochs = 120
+	epochs = 20
 	batch_size=32
 	lrate=0.001
 	decay = lrate/epochs
 
 	model = Sequential()
-	model.add(SimpleRNN(100, activation='relu',
-		kernel_initializer=initializers.RandomNormal(stddev=0.01),
-		recurrent_initializer=initializers.Identity(gain=1.0),
-               input_shape=inp_shape[1:]))
 	
+	model.add(Embedding(100, 72, input_length=inp_shape[1]))
+	model.add(Dropout(0.2))
+	model.add(LSTM(32))
+	model.add(Dropout(0.2))
 	model.add(Dense(num_classes, activation='softmax'))
 	
-	rms = RMSprop(lr=lrate)
+	
 	model.compile(loss='binary_crossentropy',
-	              optimizer=rms,
+	              optimizer='adam',
 	              metrics=['accuracy'])
 	
 
@@ -75,6 +75,8 @@ if __name__ == '__main__':
 
 	X_binarized = preprocess(X)
 	inp_shape = X_binarized.shape
+	print(X_binarized.shape)
+	exit()
 	
 
 	X_train, X_test, y_train, y_test = train_test_split(X_binarized, y, test_size=0.33, random_state=42)
@@ -92,10 +94,11 @@ if __name__ == '__main__':
 	seed = 7
 	np.random.seed(seed)
 	
-	model.fit(X_train, y_train, validation_data=(X_test, y_test_), nb_epoch=epochs, batch_size=12)
+	model.fit(X_train, y_train, validation_data=(X_test, y_test_), nb_epoch=epochs, batch_size=50)
 	# Final evaluation of the model
 	pred = model.predict(X_test, verbose=0)
 	pred = [np.argmax(item) for item in pred]
+	print(pred, y_test)
 
 	print("accuracy : ", accuracy_score(y_test, pred ) )
 	print("precision : ", precision_score(y_test, pred, average='weighted' ) )
