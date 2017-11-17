@@ -210,3 +210,107 @@ mean metrics cv=10
 ('precision : ', 0.95622508777223403)
 ('recall : ', 0.9549626796835412)
 ('f1 : ', 0.95508606218093406)
+
+
+
+2 words non overlapping
+
+('Fold : ', 0)
+building model
+compiling model
+2017-11-16 20:20:18.927015: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2017-11-16 20:20:18.927050: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+2017-11-16 20:20:18.927067: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+('accuracy : ', 0.94670846394984332)
+('precision : ', 0.94682075534722132)
+('recall : ', 0.94670846394984332)
+('f1 : ', 0.94665251028422737)
+
+
+('Fold : ', 1)
+building model
+compiling model
+('accuracy : ', 0.96865203761755481)
+('precision : ', 0.96949749017896114)
+('recall : ', 0.96865203761755481)
+('f1 : ', 0.96883317283053727)
+
+
+('Fold : ', 2)
+building model
+compiling model
+('accuracy : ', 0.96855345911949686)
+('precision : ', 0.9697204278609286)
+('recall : ', 0.96855345911949686)
+('f1 : ', 0.96872176077464434)
+
+
+('Fold : ', 3)
+building model
+compiling model
+('accuracy : ', 0.94654088050314467)
+('precision : ', 0.94641740814422459)
+('recall : ', 0.94654088050314467)
+('f1 : ', 0.9461230907457322)
+
+
+('Fold : ', 4)
+building model
+compiling model
+('accuracy : ', 0.99371069182389937)
+('precision : ', 0.99371069182389937)
+('recall : ', 0.99371069182389937)
+('f1 : ', 0.99371069182389937)
+
+
+('Fold : ', 5)
+building model
+compiling model
+('accuracy : ', 0.94952681388012616)
+('precision : ', 0.94999418403115277)
+('recall : ', 0.94952681388012616)
+('f1 : ', 0.94963205501786785)
+
+
+('Fold : ', 6)
+building model
+compiling model
+('accuracy : ', 0.96529968454258674)
+('precision : ', 0.96527462932624597)
+('recall : ', 0.96529968454258674)
+('f1 : ', 0.96511275669836083)
+
+
+('Fold : ', 7)
+building model
+compiling model
+('accuracy : ', 0.96845425867507884)
+('precision : ', 0.96875818037420092)
+('recall : ', 0.96845425867507884)
+('f1 : ', 0.9684766646470172)
+
+
+('Fold : ', 8)
+building model
+compiling model
+('accuracy : ', 0.96518987341772156)
+('precision : ', 0.96691441184714222)
+('recall : ', 0.96518987341772156)
+('f1 : ', 0.96540167144418398)
+
+
+('Fold : ', 9)
+building model
+compiling model
+('accuracy : ', 0.97468354430379744)
+('precision : ', 0.97468354430379744)
+('recall : ', 0.97468354430379744)
+('f1 : ', 0.97468354430379744)
+
+
+mean metrics cv=10
+('accuracy : ', 0.96473197078332495)
+('precision : ', 0.96517917232377748)
+('recall : ', 0.96473197078332495)
+('f1 : ', 0.96473479185702671)
+
