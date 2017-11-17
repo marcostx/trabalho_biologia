@@ -115,8 +115,8 @@ def get_binary_words(vector_sentences):
         for val in kms:
             words.append(nucleotides[val[0]]+nucleotides[val[1]])
 
-
         sentences.append(words)
     sentences = np.array(sentences)
+
 
     return sentences
