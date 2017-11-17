@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
         model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
 
-        model.fit(X_train, y_train, batch_size=30, epochs=epochs, shuffle=True,validation_data=(X_test, y_test))
+        model.fit(X_train, y_train, batch_size=128, epochs=epochs, shuffle=True,verbose=False,validation_data=(X_test, y_test))
 
         pred = model.predict(X_test, verbose=0)
 
