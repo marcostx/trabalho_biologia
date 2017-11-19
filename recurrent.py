@@ -21,15 +21,16 @@ from keras.layers import Dense, Embedding, LSTM
 from sklearn.model_selection import train_test_split
 from keras.utils.np_utils import to_categorical
 from keras import initializers
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, LeaveOneOut
 from utils import *
+from keras.layers.normalization import BatchNormalization
 from keras.layers.convolutional import Conv1D, MaxPooling1D
 from keras.layers import LSTM, Bidirectional
 from utils import *
 
 
 def create_recurrent_model(num_classes,inp_shape):
-    epochs = 30
+    epochs = 50
 
     print 'building model'
 
@@ -47,7 +48,7 @@ def create_recurrent_model(num_classes,inp_shape):
     model.add(Dense(num_classes, activation='softmax'))
 
     print 'compiling model'
-    model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     return model, epochs
 
@@ -67,10 +68,11 @@ if __name__ == '__main__':
     fold=0
 
     #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-    skf = StratifiedKFold(n_splits=10)
+    #skf = StratifiedKFold(n_splits=10)
+    skf = LeaveOneOut()
     accs,pres,recalls,f1s = [],[],[],[]
 
-    for train_index, test_index in skf.split(X, y):
+    for train_index, test_index in skf.split(X):
         print("Fold : ", fold)
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
@@ -80,7 +82,7 @@ if __name__ == '__main__':
 
         model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
 
-        model.fit(X_train, y_train, batch_size=128, epochs=epochs, shuffle=True,verbose=False,validation_data=(X_test, y_test))
+        model.fit(X_train, y_train, batch_size=128, epochs=epochs, shuffle=True,verbose=False)
 
         pred = model.predict(X_test, verbose=0)
 

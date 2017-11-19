@@ -15,15 +15,15 @@ def load_csv(input_file='dataset.csv'):
     for idx, val in enumerate(raw_data.values):
 
         # removing \t\t
+
         preprocessed = raw_data.sequence[idx].replace("\t","")
         preprocessed = preprocessed.replace(" ","")
+
         X.append(preprocessed)
         if not raw_data.target[idx] in available:
             classes += 1
             y.append(classes)
             available.append(raw_data.target[idx])
-            
-
         else:
             y.append(classes)
 
