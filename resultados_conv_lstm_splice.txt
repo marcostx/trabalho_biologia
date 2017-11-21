@@ -1,112 +1,3 @@
-Epoch 1/50
-2017-11-16 14:52:45.047103: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
-2017-11-16 14:52:45.047126: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
-2222/2222 [==============================] - 23s - loss: 0.5150 - acc: 0.7550 - val_loss: 0.4031 - val_acc: 0.8055
-Epoch 2/50
-2222/2222 [==============================] - 25s - loss: 0.2410 - acc: 0.8990 - val_loss: 0.1756 - val_acc: 0.9255
-Epoch 3/50
-2222/2222 [==============================] - 27s - loss: 0.1283 - acc: 0.9506 - val_loss: 0.0882 - val_acc: 0.9696
-Epoch 4/50
-2222/2222 [==============================] - 25s - loss: 0.0996 - acc: 0.9616 - val_loss: 0.0984 - val_acc: 0.9650
-Epoch 5/50
-2222/2222 [==============================] - 25s - loss: 0.0845 - acc: 0.9721 - val_loss: 0.0859 - val_acc: 0.9745
-Epoch 6/50
-2222/2222 [==============================] - 25s - loss: 0.0643 - acc: 0.9797 - val_loss: 0.0815 - val_acc: 0.9755
-Epoch 7/50
-2222/2222 [==============================] - 26s - loss: 0.0647 - acc: 0.9790 - val_loss: 0.1247 - val_acc: 0.9542
-Epoch 8/50
-2222/2222 [==============================] - 28s - loss: 0.0523 - acc: 0.9817 - val_loss: 0.1165 - val_acc: 0.9682
-Epoch 9/50
-2222/2222 [==============================] - 30s - loss: 0.0406 - acc: 0.9869 - val_loss: 0.0973 - val_acc: 0.9783
-Epoch 10/50
-2222/2222 [==============================] - 30s - loss: 0.0333 - acc: 0.9898 - val_loss: 0.1263 - val_acc: 0.9633
-Epoch 11/50
-2222/2222 [==============================] - 30s - loss: 0.0308 - acc: 0.9866 - val_loss: 0.1185 - val_acc: 0.9706
-Epoch 12/50
-2222/2222 [==============================] - 30s - loss: 0.0259 - acc: 0.9916 - val_loss: 0.0994 - val_acc: 0.9752
-Epoch 13/50
-2222/2222 [==============================] - 31s - loss: 0.0236 - acc: 0.9914 - val_loss: 0.1142 - val_acc: 0.9748
-Epoch 14/50
-2222/2222 [==============================] - 37s - loss: 0.0229 - acc: 0.9923 - val_loss: 0.1093 - val_acc: 0.9759
-Epoch 15/50
-2222/2222 [==============================] - 36s - loss: 0.0133 - acc: 0.9958 - val_loss: 0.1129 - val_acc: 0.9741
-Epoch 16/50
-2222/2222 [==============================] - 37s - loss: 0.0167 - acc: 0.9943 - val_loss: 0.1798 - val_acc: 0.9668
-Epoch 17/50
-2222/2222 [==============================] - 45s - loss: 0.0168 - acc: 0.9949 - val_loss: 0.1674 - val_acc: 0.9668
-Epoch 18/50
-2222/2222 [==============================] - 34s - loss: 0.0075 - acc: 0.9979 - val_loss: 0.1406 - val_acc: 0.9720
-Epoch 19/50
-2222/2222 [==============================] - 33s - loss: 0.0091 - acc: 0.9961 - val_loss: 0.1325 - val_acc: 0.9755
-Epoch 20/50
-2222/2222 [==============================] - 36s - loss: 0.0091 - acc: 0.9955 - val_loss: 0.1379 - val_acc: 0.9755
-Epoch 21/50
-2222/2222 [==============================] - 34s - loss: 0.0111 - acc: 0.9967 - val_loss: 0.1419 - val_acc: 0.9766
-Epoch 22/50
-2222/2222 [==============================] - 41s - loss: 0.0051 - acc: 0.9985 - val_loss: 0.2371 - val_acc: 0.9636
-Epoch 23/50
-2222/2222 [==============================] - 40s - loss: 0.0056 - acc: 0.9988 - val_loss: 0.1600 - val_acc: 0.9776
-Epoch 24/50
-2222/2222 [==============================] - 42s - loss: 0.0126 - acc: 0.9964 - val_loss: 0.1554 - val_acc: 0.9755
-Epoch 25/50
-2222/2222 [==============================] - 42s - loss: 0.0054 - acc: 0.9973 - val_loss: 0.1432 - val_acc: 0.9762
-Epoch 26/50
-2222/2222 [==============================] - 35s - loss: 0.0069 - acc: 0.9970 - val_loss: 0.1778 - val_acc: 0.9692
-Epoch 27/50
-2222/2222 [==============================] - 31s - loss: 0.0056 - acc: 0.9982 - val_loss: 0.1422 - val_acc: 0.9755
-Epoch 28/50
-2222/2222 [==============================] - 30s - loss: 0.0042 - acc: 0.9991 - val_loss: 0.1380 - val_acc: 0.9755
-Epoch 29/50
-2222/2222 [==============================] - 30s - loss: 0.0070 - acc: 0.9977 - val_loss: 0.1332 - val_acc: 0.9766
-Epoch 30/50
-2222/2222 [==============================] - 30s - loss: 0.0084 - acc: 0.9976 - val_loss: 0.1646 - val_acc: 0.9762
-Epoch 31/50
-2222/2222 [==============================] - 30s - loss: 0.0068 - acc: 0.9982 - val_loss: 0.1552 - val_acc: 0.9776
-Epoch 32/50
-2222/2222 [==============================] - 30s - loss: 0.0062 - acc: 0.9979 - val_loss: 0.1651 - val_acc: 0.9769
-Epoch 33/50
-2222/2222 [==============================] - 30s - loss: 0.0078 - acc: 0.9976 - val_loss: 0.1658 - val_acc: 0.9769
-Epoch 34/50
-2222/2222 [==============================] - 30s - loss: 0.0078 - acc: 0.9982 - val_loss: 0.1535 - val_acc: 0.9769
-Epoch 35/50
-2222/2222 [==============================] - 33s - loss: 0.0039 - acc: 0.9982 - val_loss: 0.1664 - val_acc: 0.9797
-Epoch 36/50
-2222/2222 [==============================] - 46s - loss: 0.0019 - acc: 0.9994 - val_loss: 0.1816 - val_acc: 0.9773
-Epoch 37/50
-2222/2222 [==============================] - 41s - loss: 0.0050 - acc: 0.9976 - val_loss: 0.2053 - val_acc: 0.9776
-Epoch 38/50
-2222/2222 [==============================] - 42s - loss: 0.0062 - acc: 0.9976 - val_loss: 0.1913 - val_acc: 0.9706
-Epoch 39/50
-2222/2222 [==============================] - 33s - loss: 0.0042 - acc: 0.9988 - val_loss: 0.1998 - val_acc: 0.9755
-Epoch 40/50
-2222/2222 [==============================] - 33s - loss: 0.0046 - acc: 0.9982 - val_loss: 0.2062 - val_acc: 0.9748
-Epoch 41/50
-2222/2222 [==============================] - 33s - loss: 0.0015 - acc: 0.9994 - val_loss: 0.1915 - val_acc: 0.9748
-Epoch 42/50
-2222/2222 [==============================] - 33s - loss: 0.0080 - acc: 0.9976 - val_loss: 0.2049 - val_acc: 0.9755
-Epoch 43/50
-2222/2222 [==============================] - 33s - loss: 0.0063 - acc: 0.9985 - val_loss: 0.1890 - val_acc: 0.9755
-Epoch 44/50
-2222/2222 [==============================] - 33s - loss: 0.0090 - acc: 0.9976 - val_loss: 0.1816 - val_acc: 0.9720
-Epoch 45/50
-2222/2222 [==============================] - 40s - loss: 0.0036 - acc: 0.9991 - val_loss: 0.1900 - val_acc: 0.9720
-Epoch 46/50
-2222/2222 [==============================] - 45s - loss: 0.0027 - acc: 0.9985 - val_loss: 0.2050 - val_acc: 0.9713
-Epoch 47/50
-2222/2222 [==============================] - 38s - loss: 0.0037 - acc: 0.9994 - val_loss: 0.2151 - val_acc: 0.9720
-Epoch 48/50
-2222/2222 [==============================] - 32s - loss: 0.0053 - acc: 0.9982 - val_loss: 0.1980 - val_acc: 0.9748
-Epoch 49/50
-2222/2222 [==============================] - 37s - loss: 0.0023 - acc: 0.9994 - val_loss: 0.2248 - val_acc: 0.9720
-Epoch 50/50
-2222/2222 [==============================] - 34s - loss: 0.0016 - acc: 0.9994 - val_loss: 0.2076 - val_acc: 0.9780
-
-('accuracy : ', 0.96642182581322145)
-('precision : ', 0.96658996021471166)
-('recall : ', 0.96642182581322145)
-('f1 : ', 0.96643593098286629)
-
-
 
 
 
@@ -213,14 +104,11 @@ mean metrics cv=10
 
 
 
-2 words non overlapping
+2 words non overlapping splice
 
 ('Fold : ', 0)
 building model
 compiling model
-2017-11-16 20:20:18.927015: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
-2017-11-16 20:20:18.927050: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
-2017-11-16 20:20:18.927067: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
 ('accuracy : ', 0.94670846394984332)
 ('precision : ', 0.94682075534722132)
 ('recall : ', 0.94670846394984332)
@@ -313,4 +201,129 @@ mean metrics cv=10
 ('precision : ', 0.96517917232377748)
 ('recall : ', 0.96473197078332495)
 ('f1 : ', 0.96473479185702671)
+
+
+
+2 words overlapping splice
+
+Epoch 1/10
+('accuracy : ', 0.95924764890282133)
+('precision : ', 0.9602126324751854)
+('recall : ', 0.95924764890282133)
+('f1 : ', 0.95953490939502284)
+
+
+('Fold : ', 1)
+building model
+compiling model
+Train on 2856 samples, validate on 319 samples
+
+('accuracy : ', 0.96551724137931039)
+('precision : ', 0.96673089821251779)
+('recall : ', 0.96551724137931039)
+('f1 : ', 0.96561873098328854)
+
+
+('Fold : ', 2)
+building model
+compiling model
+Train on 2857 samples, validate on 318 samples
+
+('accuracy : ', 0.96226415094339623)
+('precision : ', 0.96264440328741763)
+('recall : ', 0.96226415094339623)
+('f1 : ', 0.96224466570156497)
+
+
+('Fold : ', 3)
+building model
+compiling model
+Train on 2857 samples, validate on 318 samples
+
+('accuracy : ', 0.94654088050314467)
+('precision : ', 0.94636836090141208)
+('recall : ', 0.94654088050314467)
+('f1 : ', 0.94560653333915168)
+
+
+('Fold : ', 4)
+building model
+compiling model
+Train on 2857 samples, validate on 318 samples
+('accuracy : ', 0.99371069182389937)
+('precision : ', 0.99371069182389937)
+('recall : ', 0.99371069182389937)
+('f1 : ', 0.99371069182389937)
+
+
+('Fold : ', 5)
+building model
+compiling model
+Train on 2858 samples, validate on 317 samples
+
+('accuracy : ', 0.95583596214511046)
+('precision : ', 0.95598461844518623)
+('recall : ', 0.95583596214511046)
+('f1 : ', 0.95583159217228608)
+
+
+('Fold : ', 6)
+building model
+compiling model
+Train on 2858 samples, validate on 317 samples
+
+('accuracy : ', 0.97476340694006314)
+('precision : ', 0.97537938887125986)
+('recall : ', 0.97476340694006314)
+('f1 : ', 0.97456976182477517)
+
+
+('Fold : ', 7)
+building model
+compiling model
+Train on 2858 samples, validate on 317 samples
+('accuracy : ', 0.97160883280757093)
+('precision : ', 0.97169042954685803)
+('recall : ', 0.97160883280757093)
+('f1 : ', 0.971595394078969)
+
+
+('Fold : ', 8)
+building model
+compiling model
+Train on 2859 samples, validate on 316 samples
+('accuracy : ', 0.95886075949367089)
+('precision : ', 0.96117752773870924)
+('recall : ', 0.95886075949367089)
+('f1 : ', 0.95923707897729771)
+
+
+('Fold : ', 9)
+building model
+compiling model
+Train on 2859 samples, validate on 316 samples
+('accuracy : ', 0.98101265822784811)
+('precision : ', 0.98137317737542062)
+('recall : ', 0.98101265822784811)
+('f1 : ', 0.98100895859424897)
+
+
+mean metrics cv=10
+('accuracy : ', 0.96693622331668361)
+('precision : ', 0.96752721286778665)
+('recall : ', 0.96693622331668361)
+('f1 : ', 0.96689583168905047)
+
+
+
+
+
+2 words non overlapping h3 dataset
+
+mean metrics cv=10
+('accuracy : ', 0.83044980385777067)
+('precision : ', 0.83268343354912078)
+('recall : ', 0.83044980385777067)
+('f1 : ', 0.83010479863146025)
+
 

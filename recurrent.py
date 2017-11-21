@@ -19,24 +19,26 @@ from keras.preprocessing.sequence import pad_sequences
 from keras.models import Sequential
 from keras.layers import Dense, Embedding, LSTM
 from sklearn.model_selection import train_test_split
+from keras.layers.normalization import BatchNormalization
 from keras.utils.np_utils import to_categorical
 from keras import initializers
-from sklearn.model_selection import StratifiedKFold, LeaveOneOut
-from utils import *
-from keras.layers.normalization import BatchNormalization
+from sklearn.model_selection import LeaveOneOut,StratifiedKFold
 from keras.layers.convolutional import Conv1D, MaxPooling1D
 from keras.layers import LSTM, Bidirectional
+import matplotlib.pyplot as plt
 from utils import *
 
 
 def create_recurrent_model(num_classes,inp_shape):
-    epochs = 50
+    epochs = 10
 
     print 'building model'
 
     model = Sequential()
-    model.add(Conv1D(activation="relu", input_shape=inp_shape, padding="valid", strides=1, filters=200, kernel_size=3))
-
+    model.add(Conv1D(activation="relu", input_shape=inp_shape, padding="same", strides=1, filters=500, kernel_size=3))
+    model.add(MaxPooling1D(strides=2, pool_size=2))
+    model.add(Dropout(0.2))
+    model.add(Conv1D(activation="relu", padding="same", strides=1, filters=300, kernel_size=3))
     model.add(MaxPooling1D(strides=2, pool_size=2))
     model.add(Dropout(0.2))
     model.add(Bidirectional(LSTM(128, return_sequences=True)))
@@ -68,21 +70,24 @@ if __name__ == '__main__':
     fold=0
 
     #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-    #skf = StratifiedKFold(n_splits=10)
-    skf = LeaveOneOut()
+    skf = StratifiedKFold(n_splits=10)
+    #skf = LeaveOneOut()
     accs,pres,recalls,f1s = [],[],[],[]
 
-    for train_index, test_index in skf.split(X):
+    for train_index, test_index in skf.split(X,y):
+
         print("Fold : ", fold)
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
+        
 
         y_train = to_categorical(y_train)
         y_test  = to_categorical(y_test)
 
         model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
 
-        model.fit(X_train, y_train, batch_size=128, epochs=epochs, shuffle=True,verbose=False)
+
+        model.fit(X_train, y_train, batch_size=128, epochs=epochs, shuffle=True,verbose=True,validation_data=(X_test,y_test))
 
         pred = model.predict(X_test, verbose=0)
 
@@ -101,9 +106,20 @@ if __name__ == '__main__':
         f1s.append(f1_score(y_test, pred, average='weighted'))
         fold+=1
 
+        del model
+
     print("mean metrics cv=10")
     print("accuracy : ", np.mean(accs))
     print("precision : ",np.mean(pres))
     print("recall : ", np.mean(recalls))
     print("f1 : ", np.mean(f1s))
     print("\n")
+
+    """
+    leave one out :
+    mean metrics cv=10
+    ('accuracy : ', 0.78301886792452835)
+    ('precision : ', 0.78301886792452835)
+    ('recall : ', 0.78301886792452835)
+    ('f1 : ', 0.78301886792452835)
+    """

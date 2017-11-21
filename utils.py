@@ -49,11 +49,11 @@ def twin(km):
 def kmers(seq, k):
     kmer = []
     # overlapping
-    #for i in range(len(seq) - k + 1):
-    #    kmer.append(seq[i:i + k])
-    # non-overlapping
-    for i in range(0,len(seq) - k + 1,k):
+    for i in range(len(seq) - k + 1):
         kmer.append(seq[i:i + k])
+    # non-overlapping
+    #for i in range(0,len(seq) - k + 1,k):
+    #    kmer.append(seq[i:i + k])
 
     return kmer
 
@@ -113,7 +113,8 @@ def get_binary_words(vector_sentences):
         #for i in range(0, len(sentence)):
         #    words.append(nucleotides[sentence[i]])
         for val in kms:
-            words.append(nucleotides[val[0]]+nucleotides[val[1]])
+            words.append(nucleotides[val[0]]+nucleotides[val[1]]+nucleotides[val[2]])
+
 
         sentences.append(words)
     sentences = np.array(sentences)
