@@ -66,6 +66,7 @@ if __name__ == '__main__':
     #X = get_words(X)
     X = get_binary_words(X)
     print(X.shape,y.shape)
+    exit()
 
 
 

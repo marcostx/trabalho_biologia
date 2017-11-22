@@ -107,14 +107,41 @@ def get_binary_words(vector_sentences):
     nucleotides={'a':[1,0,0,0],'t':[0,1,0,0],'c':[0,0,1,0],'g':[0,0,0,1],
                  'A': [1, 0, 0, 0], 'T': [0, 1, 0, 0], 'C': [0, 0, 1, 0], 'G': [0, 0, 0, 1]}
 
+    sizes=[]
+
     for sentence in vector_sentences:
         words = []
         kms = kmers(sentence, k)
-        #for i in range(0, len(sentence)):
-        #    words.append(nucleotides[sentence[i]])
+        
         for val in kms:
-            words.append(nucleotides[val[0]]+nucleotides[val[1]]+nucleotides[val[2]])
+            
+            word_rep=[]
+            for symbol in val:
+                rep = np.zeros(4)
+                # lidando com ambiguidade
+                if symbol == 'D':
+                    ambig = np.random.choice((0,1,3),1,replace=False)
+                    rep[ambig]=1
 
+                elif symbol == 'N':
+                    ambig = np.random.choice((0,1,2,3),1,replace=False)
+                    rep[ambig]=1
+                    
+                elif symbol == 'S':
+                    ambig = np.random.choice((2,3),1,replace=False)
+                    rep[ambig]=1
+                    
+                elif symbol == 'R':
+                    ambig = np.random.choice((0,3),1,replace=False)
+                    rep[ambig]=1
+                    
+                else:
+                    rep = nucleotides[symbol]
+
+                word_rep.append(rep)
+
+            word_rep = np.array(word_rep)
+            words.append(word_rep.flatten())
 
         sentences.append(words)
     sentences = np.array(sentences)
