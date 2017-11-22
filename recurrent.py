@@ -27,7 +27,7 @@ from keras.layers.convolutional import Conv1D, MaxPooling1D
 from keras.layers import LSTM, Bidirectional
 import matplotlib.pyplot as plt
 from utils import *
-
+from gensim.models import Doc2Vec
 
 def create_recurrent_model(num_classes,inp_shape):
     epochs = 30
@@ -63,13 +63,14 @@ if __name__ == '__main__':
 
     X, y = load_csv(ARGS.input_dataset)
 
-    #X = get_binary_words(X)
+    #X = get_words(X)
     X = get_binary_words(X)
+    print(X.shape,y.shape)
+    exit()
 
-    
+
+
     fold=0
-
-    #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
     skf = StratifiedKFold(n_splits=10)
     #skf = LeaveOneOut()
     accs,pres,recalls,f1s = [],[],[],[]
@@ -79,7 +80,6 @@ if __name__ == '__main__':
         print("Fold : ", fold)
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
-        
 
         y_train = to_categorical(y_train)
         y_test  = to_categorical(y_test)
