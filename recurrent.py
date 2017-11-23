@@ -22,7 +22,7 @@ from sklearn.model_selection import train_test_split
 from keras.layers.normalization import BatchNormalization
 from keras.utils.np_utils import to_categorical
 from keras import initializers
-from sklearn.model_selection import LeaveOneOut,StratifiedKFold
+from sklearn.model_selection import LeaveOneOut,KFold
 from keras.layers.convolutional import Conv1D, MaxPooling1D
 from keras.layers import LSTM, Bidirectional
 import matplotlib.pyplot as plt
@@ -30,7 +30,7 @@ from utils import *
 from gensim.models import Doc2Vec
 
 def create_recurrent_model(num_classes,inp_shape):
-    epochs = 10
+    epochs = 30
 
     print 'building model'
 
@@ -54,28 +54,13 @@ def create_recurrent_model(num_classes,inp_shape):
 
     return model, epochs
 
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input_dataset', help='input file', required=True)
-
-    ARGS = parser.parse_args()
-
-    X, y = load_csv(ARGS.input_dataset)
-
-    #X = get_words(X)
-    X = get_binary_words(X)
-    print(X.shape,y.shape)
-    exit()
-
-
-
+def train_and_evaluate(X,y,batch_size,splits):
+    
     fold=0
-    skf = StratifiedKFold(n_splits=10)
-    #skf = LeaveOneOut()
+    kf = KFold(n_splits=splits)
     accs,pres,recalls,f1s = [],[],[],[]
 
-    for train_index, test_index in skf.split(X,y):
+    for train_index, test_index in kf.split(X):
 
         print("Fold : ", fold)
         X_train, X_test = X[train_index], X[test_index]
@@ -86,8 +71,7 @@ if __name__ == '__main__':
 
         model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
 
-
-        model.fit(X_train, y_train, batch_size=128, epochs=epochs, shuffle=True,verbose=True,validation_data=(X_test,y_test))
+        model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=True,validation_data=(X_test,y_test))
 
         pred = model.predict(X_test, verbose=0)
 
@@ -107,12 +91,29 @@ if __name__ == '__main__':
         fold+=1
 
         del model
+    results = [acc,pres,recalls,f1s]
 
+    return results
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i', '--input_dataset', help='input file', required=True)
+    parser.add_argument('-b', '--batch_size', help='input file', required=False)
+
+    ARGS = parser.parse_args()
+
+    X,y = load_csv(ARGS.input_dataset)
+    
+
+    X = get_binary_words(data[0])
+
+    results = train_and_evaluate(X,y,batch_size,splits)
+    
     print("mean metrics cv=10")
-    print("accuracy : ", np.mean(accs))
-    print("precision : ",np.mean(pres))
-    print("recall : ", np.mean(recalls))
-    print("f1 : ", np.mean(f1s))
+    print("accuracy : ", np.mean(results[0]))
+    print("precision : ",np.mean(results[1]))
+    print("recall : ", np.mean(results[2]))
+    print("f1 : ", np.mean(results[3]))
     print("\n")
 
     """
