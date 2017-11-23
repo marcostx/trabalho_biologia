@@ -23,15 +23,11 @@ def load_csv(input_file='dataset.csv'):
 
             # removing \t\t
             
-            #preprocessed = sequence.replace("\t","")
-            #preprocessed = sequence.replace("\n","")
-            #preprocessed = sequence.replace("\"","")
-            #preprocessed = sequence.replace("\r","")
-            #preprocessed = preprocessed.replace(" ","")
+            preprocessed = sequence.replace(" ","")
             #preprocessed = preprocessed[1:-2]
             #print(preprocessed)
 
-            X.append(sequence)
+            X.append(preprocessed)
             if not target in available:
                 classes += 1
                 y.append(classes)

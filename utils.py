@@ -130,7 +130,6 @@ def get_binary_words(vector_sentences):
     for sentence in vector_sentences:
         words = []
         kms = kmers(sentence, k)
-        
         for val in kms:
             
             word_rep=[]
