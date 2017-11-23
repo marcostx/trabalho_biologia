@@ -24,7 +24,7 @@ PROCESS_DATASET=""
 #Path to src folder
 HOST_CPU_SOURCE_PATH=$(shell pwd)
 HOST_GPU_SOURCE_PATH=$(shell pwd)
-HOST_GPU_DATASET_PATH=/datasets/mrodriguez/kaggle
+HOST_GPU_DATASET_PATH=/datasets/marcostx/bio
 
 ##############################################################################
 ############################# DOCKER VARS ####################################
@@ -45,8 +45,6 @@ IMAGE_DATASET_PATH=$(IMAGE_SOURCE_PATH)/datasets
 
 
 # VOLUMES
-
-
 
 CPU_DOCKER_VOLUMES = --volume=$(HOST_CPU_SOURCE_PATH):$(IMAGE_SOURCE_PATH) \
 				     --workdir=$(IMAGE_SOURCE_PATH)
@@ -89,6 +87,8 @@ MKDIR_COMMAND=mkdir
 PREPROCESSING_FOLDER=./preprocessing
 IMAGENET_CHECKPOINTS_FOLDER=./imagenet_checkpoints
 
+
+DATASET="H3-clean.csv"
 
 RECURRENT_FILE=recurrent.py
 

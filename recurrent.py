@@ -108,13 +108,14 @@ if __name__ == '__main__':
     X = get_binary_words(X)
     print(X.shape, y.shape)
 
+
     results = train_and_evaluate(X,y,batch_size,splits)
     
     print("mean metrics cv=10")
-    print("accuracy : ", np.mean(results[0]))
-    print("precision : ",np.mean(results[1]))
-    print("recall : ", np.mean(results[2]))
-    print("f1 : ", np.mean(results[3]))
+    print("accuracy : mean={}, std={}".format(np.mean(results[0]),np.std(results[0])))
+    print("precision : mean={}, std={}".format(np.mean(results[1]),np.std(results[1])))
+    print("recall : mean={}, std={}".format(np.mean(results[2]),np.std(results[2])))
+    print("f1 : mean={}, std={}".format(np.mean(results[3]),np.std(results[3])))
     print("\n")
 
     """
