@@ -49,7 +49,10 @@ def create_recurrent_model(num_classes,inp_shape):
     model.add(Dense(num_classes, activation='softmax'))
 
     print('compiling model')
-    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    if num_classes==2:
+        model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    else:
+        model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     return model, epochs
 
@@ -106,13 +109,13 @@ if __name__ == '__main__':
     ARGS = parser.parse_args()
 
     X,y = load_csv(ARGS.input_dataset)
-    batch_size=256
-    splits=10
-
+    if ARGS.batch_size:
+        batch_size=ARGS.batch_size
+    
     X = get_binary_words(X)
     print(X.shape, y.shape)
 
-
+    splits=10
     results = train_and_evaluate(X,y,batch_size,splits)
     
     print("mean metrics cv=10")
