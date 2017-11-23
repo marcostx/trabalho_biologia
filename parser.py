@@ -1,4 +1,3 @@
-import pandas as pd
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,24 +10,23 @@ def load_csv(input_file='dataset.csv'):
     classes=-1
     available = []
 
-    raw_data = pd.read_csv(input_file)
-    for idx, val in enumerate(raw_data.values):
+    #raw_data = pd.read_csv(input_file)
+    with open(input_file) as raw_data:
+        for idx, val in enumerate(raw_data.readlines()):
+            sequence = val.split(",")[2]
+            target   = val.split(",")[0]
 
-        # removing \t\t
+            # removing \t\t
+            preprocessed = sequence.replace("\t","")
+            preprocessed = preprocessed.replace(" ","")
 
-        preprocessed = raw_data.sequence[idx].replace("\t","")
-        preprocessed = preprocessed.replace(" ","")
+            X.append(preprocessed)
+            if not target in available:
+                classes += 1
+                y.append(classes)
+                available.append(target)
+            else:
+                y.append(classes)
 
-        X.append(preprocessed)
-        if not raw_data.target[idx] in available:
-            classes += 1
-            y.append(classes)
-            available.append(raw_data.target[idx])
-        else:
-            y.append(classes)
-
+    
     return X,np.array(y)
-#if __name__ == '__main__':
-#	dataset = load_csv(sys.argv[1])
-
-    #print(dataset.sequence)
