@@ -103,7 +103,8 @@ if __name__ == '__main__':
     ARGS = parser.parse_args()
 
     X,y = load_csv(ARGS.input_dataset)
-    
+    batch_size=128
+    splits=10
 
     X = get_binary_words(data[0])
 

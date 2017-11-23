@@ -128,7 +128,7 @@ logistic l:
 
 
 run-train rc: docker-print
-	@$(DOCKER_RUN_COMMAND) bash -c "make train CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)  DATASET=$(DATASET)"; \
+	@$(DOCKER_RUN_COMMAND) bash -c "make train CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES) DATASET=$(DATASET)"; \
 	status=$$
 
 run-docker rtm: docker-print
