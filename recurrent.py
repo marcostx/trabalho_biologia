@@ -88,6 +88,10 @@ def train_and_evaluate(X,y,batch_size,splits):
         recalls.append(recall_score(y_test, pred, average='weighted'))
         f1s.append(f1_score(y_test, pred, average='weighted'))
         fold+=1
+        plt.figure()
+        cnf_matrix = confusion_matrix(y_test, pred)
+        plt.save_fig("confusion_matrix_" + str(fold) + ".png")
+        
 
         del model
     results = [acc,pres,recalls,f1s]
@@ -117,6 +121,8 @@ if __name__ == '__main__':
     print("recall : mean={}, std={}".format(np.mean(results[2]),np.std(results[2])))
     print("f1 : mean={}, std={}".format(np.mean(results[3]),np.std(results[3])))
     print("\n")
+
+
 
     """
     leave one out :

@@ -15,6 +15,7 @@ from keras.utils import np_utils
 from keras.layers.recurrent import LSTM
 from keras.layers import SimpleRNN
 from keras import initializers
+import matplotlib.pyplot as plt
 
 
 def preprocess(X):
@@ -24,6 +25,24 @@ def preprocess(X):
     # X_binarized = X_binarized.reshape((X_binarized.shape[0],X_binarized.shape[1]))
 
     return X_binarized
+
+
+def confusion_matrix(cm,title='Confusion matrix',cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    
+    print('Confusion matrix plot')
+
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
 
 
 def create_dict_words():
