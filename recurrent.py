@@ -27,7 +27,6 @@ from keras.layers.convolutional import Conv1D, MaxPooling1D
 from keras.layers import LSTM, Bidirectional
 import matplotlib.pyplot as plt
 from utils import *
-from gensim.models import Doc2Vec
 
 def create_recurrent_model(num_classes,inp_shape):
     epochs = 30

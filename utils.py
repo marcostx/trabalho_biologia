@@ -1,5 +1,4 @@
 import collections, sys
-from Bio import Seq, SeqIO, SeqRecord
 import itertools
 from parser import load_csv
 import numpy as np
