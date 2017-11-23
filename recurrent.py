@@ -107,7 +107,6 @@ if __name__ == '__main__':
 
     X = get_binary_words(X)
     print(X.shape, y.shape)
-    exit()
 
     results = train_and_evaluate(X,y,batch_size,splits)
     

@@ -89,7 +89,6 @@ MKDIR_COMMAND=mkdir
 PREPROCESSING_FOLDER=./preprocessing
 IMAGENET_CHECKPOINTS_FOLDER=./imagenet_checkpoints
 
-DATASET="/home/marcostx/trabalho_biologia/trabalho_biologia/datasets/H3-clean.csv"
 
 RECURRENT_FILE=recurrent.py
 
