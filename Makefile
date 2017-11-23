@@ -13,7 +13,7 @@ GPU_DOCKER_IMAGE=tensorflow-opencv-py3
 ############################# Exposed vars ###################################
 ##############################################################################
 # enable/disable GPU usage
-GPU=false
+GPU=true
 # Config file used to experiment
 CONFIG_FILE="configs/config.json"
 # List of cuda devises
@@ -89,7 +89,7 @@ MKDIR_COMMAND=mkdir
 PREPROCESSING_FOLDER=./preprocessing
 IMAGENET_CHECKPOINTS_FOLDER=./imagenet_checkpoints
 
-DATASET="datasets/H3-clean.csv"
+DATASET="/home/marcostx/trabalho_biologia/trabalho_biologia/datasets/H3-clean.csv"
 
 RECURRENT_FILE=recurrent.py
 
