@@ -103,10 +103,12 @@ if __name__ == '__main__':
     ARGS = parser.parse_args()
 
     X,y = load_csv(ARGS.input_dataset)
-    batch_size=128
+    batch_size=256
     splits=10
 
-    X = get_binary_words(data[0])
+    X = get_binary_words(X)
+    print(X.shape, y.shape)
+    exit()
 
     results = train_and_evaluate(X,y,batch_size,splits)
     

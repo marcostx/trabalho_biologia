@@ -1,7 +1,7 @@
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-
+import csv
 import os
 
 
@@ -12,15 +12,25 @@ def load_csv(input_file='dataset.csv'):
 
     #raw_data = pd.read_csv(input_file)
     with open(input_file) as raw_data:
-        for idx, val in enumerate(raw_data.readlines()):
-            sequence = val.split(",")[2]
-            target   = val.split(",")[0]
+        data = csv.reader(raw_data, delimiter=',')
+
+        for idx, val in enumerate(data):
+            if idx==0:
+                continue
+            sequence = val[2]
+            target   = val[0]
 
             # removing \t\t
-            preprocessed = sequence.replace("\t","")
-            preprocessed = preprocessed.replace(" ","")
+            
+            #preprocessed = sequence.replace("\t","")
+            #preprocessed = sequence.replace("\n","")
+            #preprocessed = sequence.replace("\"","")
+            #preprocessed = sequence.replace("\r","")
+            #preprocessed = preprocessed.replace(" ","")
+            #preprocessed = preprocessed[1:-2]
+            #print(preprocessed)
 
-            X.append(preprocessed)
+            X.append(sequence)
             if not target in available:
                 classes += 1
                 y.append(classes)
