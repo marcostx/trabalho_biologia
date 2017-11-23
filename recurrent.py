@@ -31,7 +31,7 @@ from utils import *
 def create_recurrent_model(num_classes,inp_shape):
     epochs = 30
 
-    print 'building model'
+    print('building model')
 
     model = Sequential()
     model.add(Conv1D(activation="relu", input_shape=inp_shape, padding="same", strides=1, filters=500, kernel_size=3))
@@ -48,7 +48,7 @@ def create_recurrent_model(num_classes,inp_shape):
 
     model.add(Dense(num_classes, activation='softmax'))
 
-    print 'compiling model'
+    print('compiling model')
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     return model, epochs
