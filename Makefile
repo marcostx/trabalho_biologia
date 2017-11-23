@@ -1,39 +1,30 @@
 # rcnn-fer Docker Makefile
-PROGRAM="RCNN-FER"
+PROGRAM="kaggle-amazon"
 
 CPU_REGISTRY_URL=so77id
 GPU_REGISTRY_URL=so77id
-CPU_VERSION=latest
-GPU_VERSION=latest
-CPU_DOCKER_IMAGE=tensorflow-opencv-cpu-py3
-GPU_DOCKER_IMAGE=tensorflow-opencv-gpu-py3
+CPU_VERSION=latest-cpu
+GPU_VERSION=latest-gpu
+CPU_DOCKER_IMAGE=tensorflow-opencv-py3
+GPU_DOCKER_IMAGE=tensorflow-opencv-py3
 
 
 ##############################################################################
-############################# Exposed vars ####################################
+############################# Exposed vars ###################################
 ##############################################################################
 # enable/disable GPU usage
 GPU=false
 # Config file used to experiment
-CONFIG_FILE=""
-
-# dataset
-DATASET="datasets/H3-clean.csv"
+CONFIG_FILE="configs/config.json"
 # List of cuda devises
 CUDA_VISIBLE_DEVICES=0
 # Name of dataset to process
 PROCESS_DATASET=""
 
-TASK=0
 #Path to src folder
-HOST_CPU_SOURCE_PATH = ""
-HOST_GPU_SOURCE_PATH = ""
-# Path to dataset
-HOST_CPU_DATASETS_PATH = ""
-HOST_GPU_DATASETS_PATH = ""
-# Path to metada
-HOST_CPU_METADATA_PATH = ""
-HOST_GPU_METADATA_PATH = ""
+HOST_CPU_SOURCE_PATH=$(shell pwd)
+HOST_GPU_SOURCE_PATH=$(shell pwd)
+HOST_GPU_DATASET_PATH=/datasets/mrodriguez/kaggle
 
 ##############################################################################
 ############################# DOCKER VARS ####################################
@@ -42,68 +33,79 @@ HOST_GPU_METADATA_PATH = ""
 DOCKER_COMMAND=docker
 NVIDIA_DOCKER_COMMAND=nvidia-docker
 
-
 #HOST VARS
-LOCALHOST_IP=127.0.0.1
+HOST_IP=127.0.0.1
 HOST_TENSORBOARD_PORT=26006
 
-#HOST CPU VARS
-HOST_CPU_SOURCE_PATH=$(shell pwd)
-HOST_CPU_METADATA_PATH=$(shell pwd)/metadata
-HOST_CPU_DATASET_PATH=$(HOME)/.keras
-
-#HOST GPU PATHS
-HOST_GPU_SOURCE_PATH=$(shell pwd)
-HOST_GPU_METADATA_PATH=$(shell pwd)/metadata
-HOST_GPU_DATASET_PATH=$(HOME)/.keras
-
 #IMAGE VARS
+IMAGE_TENSORBOARD_PORT=6006
 IMAGE_SOURCE_PATH=/home/src
-IMAGE_METADATA_PATH=/home/metadata
-IMAGE_DATASET_PATH=/root/.keras
+IMAGE_METADATA_PATH=$(IMAGE_SOURCE_PATH)/metadata
+IMAGE_DATASET_PATH=$(IMAGE_SOURCE_PATH)/datasets
 
 
 # VOLUMES
 
+DOCKER_DISPLAY_ARGS = -e DISPLAY=${HOST_IP}:0 \
+                      --volume="${HOME}/.Xauthority:/root/.Xauthority:rw" \
+
+
 CPU_DOCKER_VOLUMES = --volume=$(HOST_CPU_SOURCE_PATH):$(IMAGE_SOURCE_PATH) \
-				     --volume=$(HOST_CPU_METADATA_PATH):$(IMAGE_METADATA_PATH) \
-				     --volume=$(HOST_CPU_DATASET_PATH):$(IMAGE_DATASET_PATH) \
 				     --workdir=$(IMAGE_SOURCE_PATH)
 
 GPU_DOCKER_VOLUMES = --volume=$(HOST_GPU_SOURCE_PATH):$(IMAGE_SOURCE_PATH) \
-				     --volume=$(HOST_GPU_METADATA_PATH):$(IMAGE_METADATA_PATH) \
-				     --volume=$(HOST_GPU_DATASET_PATH):$(IMAGE_DATASET_PATH) \
+					 --volume=$(HOST_GPU_DATASET_PATH):$(IMAGE_DATASET_PATH) \
 				     --workdir=$(IMAGE_SOURCE_PATH)
 
 
-DOCKER_PORTS = -p $(LOCALHOST_IP):$(HOST_TENSORBOARD_PORT):$(IMAGE_TENSORBOARD_PORT)
+DOCKER_PORTS = -p $(HOST_IP):$(HOST_TENSORBOARD_PORT):$(IMAGE_TENSORBOARD_PORT)
 
 # IF GPU == false --> GPU is disabled
 # IF GPU == true --> GPU is enabled
 ifeq ($(GPU), true)
-	DOCKER_RUN_COMMAND=$(NVIDIA_DOCKER_COMMAND) run -it --rm  $(GPU_DOCKER_VOLUMES) $(GPU_REGISTRY_URL)/$(GPU_DOCKER_IMAGE):$(GPU_VERSION)
-	DOCKER_RUN_PORT_COMMAND=$(NVIDIA_DOCKER_COMMAND) run -it --rm  $(DOCKER_PORTS) $(GPU_DOCKER_VOLUMES) $(GPU_REGISTRY_URL)/$(GPU_DOCKER_IMAGE):$(GPU_VERSION)
+	DOCKER_RUN_COMMAND=$(NVIDIA_DOCKER_COMMAND) run -it --rm  $(GPU_DOCKER_VOLUMES) $(DOCKER_DISPLAY_ARGS) $(GPU_REGISTRY_URL)/$(GPU_DOCKER_IMAGE):$(GPU_VERSION)
+	DOCKER_RUN_PORT_COMMAND=$(NVIDIA_DOCKER_COMMAND) run -it --rm  $(DOCKER_PORTS) $(DOCKER_DISPLAY_ARGS) $(GPU_DOCKER_VOLUMES) $(GPU_REGISTRY_URL)/$(GPU_DOCKER_IMAGE):$(GPU_VERSION)
 else
-	DOCKER_RUN_COMMAND=$(DOCKER_COMMAND) run -it --rm  $(CPU_DOCKER_VOLUMES) $(CPU_REGISTRY_URL)/$(CPU_DOCKER_IMAGE):$(CPU_VERSION)
-	DOCKER_RUN_PORT_COMMAND=$(DOCKER_COMMAND) run -it --rm  $(DOCKER_PORTS) $(CPU_DOCKER_VOLUMES) $(CPU_REGISTRY_URL)/$(CPU_DOCKER_IMAGE):$(CPU_VERSION)
+	DOCKER_RUN_COMMAND=$(DOCKER_COMMAND) run -it --rm  $(CPU_DOCKER_VOLUMES) $(DOCKER_DISPLAY_ARGS) $(CPU_REGISTRY_URL)/$(CPU_DOCKER_IMAGE):$(CPU_VERSION)
+	DOCKER_RUN_PORT_COMMAND=$(DOCKER_COMMAND) run -it --rm  $(DOCKER_PORTS) $(DOCKER_DISPLAY_ARGS) $(CPU_DOCKER_VOLUMES) $(CPU_REGISTRY_URL)/$(CPU_DOCKER_IMAGE):$(CPU_VERSION)
 endif
+
 
 
 ##############################################################################
 ############################## CODE VARS #####################################
 ##############################################################################
-#COMMANDS
-PYTHON_COMMAND=python
-EXPORT_COMMAND=export
+# MODEL CHECKPOINTS URLS
+INCEPTION_CHECKPOINT_URL=https://github.com/kentsommer/keras-inceptionV4/releases/download/2.0/inception-v4_weights_tf_dim_ordering_tf_kernels.h5
 
-#FILES
+#COMMANDS
+PYTHON_COMMAND=python3
+EXPORT_COMMAND=export
+BASH_COMMAND=bash
+TENSORBOARD_COMMAND=tensorboard
+WGET_COMMAND=wget
+MV_COMMAND=mv
+MKDIR_COMMAND=mkdir
+
+
+PREPROCESSING_FOLDER=./preprocessing
+IMAGENET_CHECKPOINTS_FOLDER=./imagenet_checkpoints
+
+DATASET="datasets/H3-clean.csv"
+
 RECURRENT_FILE=recurrent.py
+
+
 
 
 ##############################################################################
 ############################ CODE COMMANDS ###################################
 ##############################################################################
-all: train
+setup s: excuda-devise
+	@$(MKDIR_COMMAND) $(IMAGENET_CHECKPOINTS_FOLDER)
+	@$(WGET_COMMAND) https://github.com/kentsommer/keras-inceptionV4/releases/download/2.0/inception-v4_weights_tf_dim_ordering_tf_kernels.h5
+	@$(MV_COMMAND) inception-v4_weights_tf_dim_ordering_tf_kernels.h5 $(IMAGENET_CHECKPOINTS_FOLDER)
+
 
 train t:
 	@echo "[Train] Trainning recurrent model"
@@ -111,30 +113,33 @@ train t:
 	@$(EXPORT_COMMAND) CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)
 	@$(PYTHON_COMMAND) $(RECURRENT_FILE) -i $(DATASET)
 
-test te:
-	@echo "[Train] Test model"
+
+dataset d: excuda-devise
+	@echo "[preprocessing] preprocessing dataset..."
+	@$(PYTHON_COMMAND) $(CREATE_H5_FILE) -c $(CONFIG_FILE)
+
+excuda-devise ecd:
+ifeq ($(GPU), true)
 	@echo "\t Using CUDA_VISIBLE_DEVICES: "$(CUDA_VISIBLE_DEVICES)
 	@$(EXPORT_COMMAND) CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)
-	@$(PYTHON_COMMAND) $(TEST_FILE) $(CONFIG_FILE)
+endif
 
-logistic l:
-	@echo "[Train] Training logistic"
-	@$(PYTHON_COMMAND) $(LOGISTIC_FILE) $(TASK)
 
 
 ##############################################################################
 ########################### DOCKER COMMANDS ##################################
 ##############################################################################
-
-
 run-train rc: docker-print
 	@$(DOCKER_RUN_COMMAND) bash -c "make train CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES) DATASET=$(DATASET)"; \
 	status=$$
 
-run-docker rtm: docker-print
-	$(DOCKER_RUN_COMMAND)
+
+run-dataset rd: docker-print
+	@$(DOCKER_RUN_COMMAND) bash -c "make dataset CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES) CONFIG_FILE=$(CONFIG_FILE)";
 
 
+run-test rte: docker-print
+	@$(DOCKER_RUN_COMMAND) bash;
 
 #PRIVATE
 docker-print psd:
