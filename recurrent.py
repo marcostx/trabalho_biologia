@@ -74,7 +74,7 @@ def train_and_evaluate(X,y,batch_size,splits):
 
         y_train = to_categorical(y_train)
         y_test  = to_categorical(y_test)
-        print(X_train.shape, y_train.shape)
+        
 
         model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
 
@@ -115,12 +115,16 @@ if __name__ == '__main__':
     ARGS = parser.parse_args()
 
     X,y = load_csv(ARGS.input_dataset)
+
     if ARGS.batch_size:
         batch_size=ARGS.batch_size
     else:
         batch_size=256
     
     X = get_binary_words(X)
+    print(X.shape)
+    exit()
+
 
     splits=10
     results = train_and_evaluate(X,y,batch_size,splits)
