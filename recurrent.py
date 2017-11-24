@@ -22,11 +22,13 @@ from sklearn.model_selection import train_test_split
 from keras.layers.normalization import BatchNormalization
 from keras.utils.np_utils import to_categorical
 from keras import initializers
-from sklearn.model_selection import LeaveOneOut,KFold
+from sklearn.model_selection import LeaveOneOut,StratifiedKFold
 from keras.layers.convolutional import Conv1D, MaxPooling1D
 from keras.layers import LSTM, Bidirectional
 import matplotlib.pyplot as plt
 from utils import *
+import warnings
+warnings.filterwarnings('ignore')
 
 def create_recurrent_model(num_classes,inp_shape):
     epochs = 5
@@ -57,14 +59,16 @@ def create_recurrent_model(num_classes,inp_shape):
     return model, epochs
 
 def train_and_evaluate(X,y,batch_size,splits):
+    #X_t, X_val, y_t, y_val = train_test_split(X, y, test_size=0.2, random_state=42) 
     
     fold=0
-    kf = KFold(n_splits=splits)
+    kf = StratifiedKFold(n_splits=splits)
     accs,pres,recalls,f1s = [],[],[],[]
 
-    for train_index, test_index in kf.split(X):
+    for train_index, test_index in kf.split(X,y):
 
         print("Fold : ", fold)
+        
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
@@ -92,13 +96,14 @@ def train_and_evaluate(X,y,batch_size,splits):
         recalls.append(recall_score(y_test, pred, average='weighted'))
         f1s.append(f1_score(y_test, pred, average='weighted'))
         fold+=1
-        plt.figure()
-        cnf_matrix = confusion_matrix(y_test, pred)
-        plt.save_fig("confusion_matrix_" + str(fold) + ".png")
+        #plt.figure()
+        #cnf_matrix = confusion_matrix(y_test, pred)
+        #plt.save_fig("confusion_matrix_" + str(fold) + ".png")
         
 
         del model
-    results = [acc,pres,recalls,f1s]
+    
+    results = [accs,pres,recalls,f1s]
 
     return results
 

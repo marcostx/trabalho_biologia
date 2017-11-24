@@ -159,9 +159,12 @@ def get_binary_words(vector_sentences):
 
             word_rep = np.array(word_rep)
             words.append(word_rep.flatten())
-
+        if not (len(words) == 498):
+            print(sentence)
+            
         sentences.append(words)
     sentences = np.array(sentences)
 
 
     return sentences
+
