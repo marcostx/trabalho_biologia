@@ -122,8 +122,7 @@ if __name__ == '__main__':
         batch_size=256
     
     X = get_binary_words(X)
-    print(X.shape)
-    exit()
+    
 
 
     splits=10
