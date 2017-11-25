@@ -95,9 +95,9 @@ def train_and_evaluate(X,y,batch_size,splits):
         recalls.append(recall_score(y_test, pred, average='weighted'))
         f1s.append(f1_score(y_test, pred, average='weighted'))
         fold+=1
-        plt.figure()
-        cnf_matrix = confusion_matrix(y_test, pred)
-        plt.save_fig("confusion_matrix_" + str(fold) + ".png")
+        #plt.figure()
+        #cnf_matrix = confusion_matrix(y_test, pred)
+        #plt.save_fig("confusion_matrix_" + str(fold) + ".png")
         
 
         del model
@@ -117,7 +117,7 @@ if __name__ == '__main__':
     if ARGS.batch_size:
         batch_size=ARGS.batch_size
     else:
-        batch_size=5
+        batch_size=128
     
     X = get_binary_words(X)
 
