@@ -22,7 +22,7 @@ from sklearn.model_selection import train_test_split
 from keras.layers.normalization import BatchNormalization
 from keras.utils.np_utils import to_categorical
 from keras import initializers
-from sklearn.model_selection import LeaveOneOut,KFold
+from sklearn.model_selection import LeaveOneOut,StratifiedKFold
 from keras.layers.convolutional import Conv1D, MaxPooling1D
 from keras.layers import LSTM, Bidirectional
 import matplotlib.pyplot as plt
@@ -58,16 +58,19 @@ def create_recurrent_model(num_classes,inp_shape):
 
 def train_and_evaluate(X,y,batch_size,splits):
     
+    # validation split
+
     fold=0
-    kf = KFold(n_splits=splits)
+    kf = StratifiedKFold(n_splits=splits,shuffle=True)
     accs,pres,recalls,f1s = [],[],[],[]
 
-    for train_index, test_index in kf.split(X):
+    for train_index, test_index in kf.split(X,y):
 
         print("Fold : ", fold)
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
+        
         y_train = to_categorical(y_train)
         y_test  = to_categorical(y_test)
         
@@ -114,11 +117,9 @@ if __name__ == '__main__':
     if ARGS.batch_size:
         batch_size=ARGS.batch_size
     else:
-        batch_size=256
+        batch_size=5
     
     X = get_binary_words(X)
-    print(X.shape)
-    exit()
 
 
     splits=10
