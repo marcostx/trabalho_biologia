@@ -29,7 +29,7 @@ import matplotlib.pyplot as plt
 from utils import *
 
 def create_recurrent_model(num_classes,inp_shape):
-    epochs = 5
+    epochs = 10
 
     print('building model')
 
@@ -101,7 +101,7 @@ def train_and_evaluate(X,y,batch_size,splits):
         
 
         del model
-    results = [acc,pres,recalls,f1s]
+    results = [accs,pres,recalls,f1s]
 
     return results
 
