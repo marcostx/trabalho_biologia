@@ -89,6 +89,7 @@ IMAGENET_CHECKPOINTS_FOLDER=./imagenet_checkpoints
 
 
 DATASET="H3-clean.csv"
+CROSS_DATASET="H3K79me3-clean.csv"
 
 RECURRENT_FILE=recurrent.py
 
@@ -108,7 +109,7 @@ train t:
 	@echo "[Train] Trainning recurrent model"
 	@echo "\t Using CUDA_VISIBLE_DEVICES: "$(CUDA_VISIBLE_DEVICES)
 	@$(EXPORT_COMMAND) CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)
-	@$(PYTHON_COMMAND) $(RECURRENT_FILE) -i $(DATASET)
+	@$(PYTHON_COMMAND) $(RECURRENT_FILE) -i $(DATASET) -c $(CROSS_DATASET)
 
 
 dataset d: excuda-devise
@@ -127,7 +128,7 @@ endif
 ########################### DOCKER COMMANDS ##################################
 ##############################################################################
 run-train rc: docker-print
-	@$(DOCKER_RUN_COMMAND) bash -c "make train CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES) DATASET=$(DATASET)"; \
+	@$(DOCKER_RUN_COMMAND) bash -c "make train CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES) DATASET=$(DATASET) CROSS_DATASET=$(CROSS_DATASET)"; \
 	status=$$
 
 
