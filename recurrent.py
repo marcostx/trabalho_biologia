@@ -100,9 +100,6 @@ def train_and_evaluate(X,y,batch_size,splits):
         recalls.append(recall_score(y_test, pred, average='weighted'))
         f1s.append(f1_score(y_test, pred, average='weighted'))
         fold+=1
-        #plt.figure()
-        #cnf_matrix = confusion_matrix(y_test, pred)
-        #plt.save_fig("confusion_matrix_" + str(fold) + ".png")
         
 
         del model
@@ -111,14 +108,40 @@ def train_and_evaluate(X,y,batch_size,splits):
 
     return results
 
+def cross_dataset_evaluation(X,y,X_b,y_b,batch_size,splits):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train_b, X_test_b, y_train_b, y_test_b = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    y_train=to_categorical(y_train)
+    y_test=to_categorical(y_test)
+    y_test_b=to_categorical(y_test_b)
+
+    model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
+
+    model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=True,validation_data=(X_test,y_test))
+
+    pred = model.predict(X_test_b, verbose=0)
+
+    pred = [np.argmax(item) for item in pred]
+    y_test_b = [np.argmax(item) for item in y_test_b]
+
+
+    print("accuracy : ", accuracy_score(y_test_b, pred))
+    print("precision : ", precision_score(y_test_b, pred, average='weighted'))
+    print("recall : ", recall_score(y_test_b, pred, average='weighted'))
+    print("f1 : ", f1_score(y_test_b, pred, average='weighted'))
+    print("\n")
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input_dataset', help='input file', required=True)
     parser.add_argument('-b', '--batch_size', help='input file', required=False)
+    parser.add_argument('-c', '--cross_dataset', help='cross dataset evaluation', required=False)
 
     ARGS = parser.parse_args()
 
     X,y = load_csv(ARGS.input_dataset)
+    splits=10
 
     if ARGS.batch_size:
         batch_size=ARGS.batch_size
@@ -127,8 +150,14 @@ if __name__ == '__main__':
     
     X = get_binary_words(X)
 
+    if ARGS.cross_dataset:
+        X_b,y_b=load_csv(ARGS.cross_dataset)
+        X_b = get_binary_words(X_b)
 
-    splits=10
+        cross_dataset_evaluation(X,y,X_b,y_b,batch_size,splits)
+
+
+    
     results = train_and_evaluate(X,y,batch_size,splits)
     
     print("mean metrics cv=10")
