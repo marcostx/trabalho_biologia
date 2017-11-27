@@ -106,7 +106,7 @@ def train_and_evaluate(X,y,batch_size,splits):
         
 
         del model
-    
+
     results = [accs,pres,recalls,f1s]
 
     return results
@@ -123,7 +123,7 @@ if __name__ == '__main__':
     if ARGS.batch_size:
         batch_size=ARGS.batch_size
     else:
-        batch_size=5
+        batch_size=128
     
     X = get_binary_words(X)
 

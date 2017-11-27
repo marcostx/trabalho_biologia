@@ -9,7 +9,7 @@ def load_csv(input_file='dataset.csv'):
     X,y=[],[]
     classes=-1
     available = []
-    #input_file = "./datasets/original/"+input_file
+    input_file = "./datasets/original/"+input_file
 
     #raw_data = pd.read_csv(input_file)
     with open(input_file) as raw_data:
