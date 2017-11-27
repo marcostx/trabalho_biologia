@@ -61,7 +61,10 @@ def create_recurrent_model(num_classes,inp_shape):
 def train_and_evaluate(X,y,batch_size,splits):
     #X_t, X_val, y_t, y_val = train_test_split(X, y, test_size=0.2, random_state=42) 
     
+    # validation split
+
     fold=0
+
     kf = StratifiedKFold(n_splits=splits)
     accs,pres,recalls,f1s = [],[],[],[]
 
@@ -72,6 +75,7 @@ def train_and_evaluate(X,y,batch_size,splits):
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
+        
         y_train = to_categorical(y_train)
         y_test  = to_categorical(y_test)
         
@@ -119,10 +123,9 @@ if __name__ == '__main__':
     if ARGS.batch_size:
         batch_size=ARGS.batch_size
     else:
-        batch_size=256
+        batch_size=5
     
     X = get_binary_words(X)
-    
 
 
     splits=10
