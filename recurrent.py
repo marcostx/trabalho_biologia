@@ -125,7 +125,7 @@ def cross_dataset_evaluation(X,y,X_b,y_b,batch_size,splits):
     pred = [np.argmax(item) for item in pred]
     y_test_b = [np.argmax(item) for item in y_test_b]
 
-
+    print("CROSS-DATASET EVALUATION: ")
     print("accuracy : ", accuracy_score(y_test_b, pred))
     print("precision : ", precision_score(y_test_b, pred, average='weighted'))
     print("recall : ", recall_score(y_test_b, pred, average='weighted'))
@@ -152,13 +152,21 @@ if __name__ == '__main__':
 
     if ARGS.cross_dataset:
         print("cross dataset experiment")
-        X_b,y_b=load_csv(ARGS.cross_dataset)
-        X_b = get_binary_words(X_b)
+        datasets=["datasets/H3-clean.csv","datasets/H4-clean.csv","datasets/H3K4me1-clean.csv",
+        "datasets/H3K4me2-clean.csv","datasets/H3K4me3-clean.csv","datasets/H3K9ac-clean.csv",
+        "datasets/H3K14ac-clean.csv","datasets/H3K36me3-clean.csv","datasets/H3K79me3-clean.csv",
+        "datasets/H4ac-clean.csv"]
 
-        cross_dataset_evaluation(X,y,X_b,y_b,batch_size,splits)
+        for dataset in datasets:
+            if dataset == ARGS.input_dataset:
+                continue
+            print("evaluating : ",dataset)
+            X_b,y_b=load_csv(dataset)
+            X_b = get_binary_words(X_b)
+
+            cross_dataset_evaluation(X,y,X_b,y_b,batch_size,splits)
+
         exit()
-
-
 
     results = train_and_evaluate(X,y,batch_size,splits)
 
