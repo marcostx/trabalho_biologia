@@ -59,8 +59,8 @@ def create_recurrent_model(num_classes,inp_shape):
     return model, epochs
 
 def train_and_evaluate(X,y,batch_size,splits):
-    #X_t, X_val, y_t, y_val = train_test_split(X, y, test_size=0.2, random_state=42) 
-    
+    #X_t, X_val, y_t, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+
     # validation split
 
     fold=0
@@ -71,14 +71,14 @@ def train_and_evaluate(X,y,batch_size,splits):
     for train_index, test_index in kf.split(X,y):
 
         print("Fold : ", fold)
-        
+
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
-        
+
         y_train = to_categorical(y_train)
         y_test  = to_categorical(y_test)
-        
+
 
         model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
 
@@ -100,7 +100,7 @@ def train_and_evaluate(X,y,batch_size,splits):
         recalls.append(recall_score(y_test, pred, average='weighted'))
         f1s.append(f1_score(y_test, pred, average='weighted'))
         fold+=1
-        
+
 
         del model
 
@@ -147,19 +147,21 @@ if __name__ == '__main__':
         batch_size=ARGS.batch_size
     else:
         batch_size=128
-    
+
     X = get_binary_words(X)
 
     if ARGS.cross_dataset:
+        print("cross dataset experiment")
         X_b,y_b=load_csv(ARGS.cross_dataset)
         X_b = get_binary_words(X_b)
 
         cross_dataset_evaluation(X,y,X_b,y_b,batch_size,splits)
+        exit()
 
 
-    
+
     results = train_and_evaluate(X,y,batch_size,splits)
-    
+
     print("mean metrics cv=10")
     print("accuracy : mean={}, std={}".format(np.mean(results[0]),np.std(results[0])))
     print("precision : mean={}, std={}".format(np.mean(results[1]),np.std(results[1])))
