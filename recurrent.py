@@ -118,7 +118,7 @@ def cross_dataset_evaluation(X,y,X_b,y_b,batch_size,splits):
 
     model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
 
-    model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=True,validation_data=(X_test,y_test))
+    model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=False,validation_data=(X_test,y_test))
 
     pred = model.predict(X_test_b, verbose=0)
 
@@ -152,10 +152,10 @@ if __name__ == '__main__':
 
     if ARGS.cross_dataset:
         print("cross dataset experiment")
-        datasets=["datasets/H3-clean.csv","datasets/H4-clean.csv","datasets/H3K4me1-clean.csv",
-        "datasets/H3K4me2-clean.csv","datasets/H3K4me3-clean.csv","datasets/H3K9ac-clean.csv",
-        "datasets/H3K14ac-clean.csv","datasets/H3K36me3-clean.csv","datasets/H3K79me3-clean.csv",
-        "datasets/H4ac-clean.csv"]
+        datasets=["H3-clean.csv","H4-clean.csv","H3K4me1-clean.csv",
+        "H3K4me2-clean.csv","H3K4me3-clean.csv","H3K9ac-clean.csv",
+        "H3K14ac-clean.csv","H3K36me3-clean.csv","H3K79me3-clean.csv",
+        "H4ac-clean.csv"]
 
         for dataset in datasets:
             if dataset == ARGS.input_dataset:
