@@ -151,10 +151,12 @@ if __name__ == '__main__':
     X = get_binary_words(X)
 
     if ARGS.cross_dataset:
+        print("cross dataset experiment")
         X_b,y_b=load_csv(ARGS.cross_dataset)
         X_b = get_binary_words(X_b)
 
         cross_dataset_evaluation(X,y,X_b,y_b,batch_size,splits)
+        exit()
 
 
     
