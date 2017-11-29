@@ -88,7 +88,7 @@ PREPROCESSING_FOLDER=./preprocessing
 IMAGENET_CHECKPOINTS_FOLDER=./imagenet_checkpoints
 
 
-DATASET="H3-clean.csv"
+DATASET="H4-clean.csv"
 CROSS_DATASET="H3K79me3-clean.csv"
 
 RECURRENT_FILE=recurrent.py

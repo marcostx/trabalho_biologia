@@ -108,32 +108,39 @@ def train_and_evaluate(X,y,batch_size,splits):
 
     return results
 
-def cross_dataset_evaluation(X,y,X_b,y_b,batch_size,splits):
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    X_train_b, X_test_b, y_train_b, y_test_b = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    y_train=to_categorical(y_train)
-    y_test=to_categorical(y_test)
-    y_test_b=to_categorical(y_test_b)
+def cross_dataset_train(X,y,batch_size):
 
-    model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
+    y=to_categorical(y)
 
-    model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=False,validation_data=(X_test,y_test))
+    model, epochs = create_recurrent_model(y.shape[1],X.shape[1:])
 
-    pred = model.predict(X_test_b, verbose=0)
+    model.fit(X, y, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=False)
+
+    return model
+
+
+def cross_dataset_evaluation(model,X_b,y_b):
+    y_b=to_categorical(y_b)
+
+    pred = model.predict(X_b, verbose=0)
 
     pred = [np.argmax(item) for item in pred]
-    y_test_b = [np.argmax(item) for item in y_test_b]
+    y_b = [np.argmax(item) for item in y_b]
 
     print("CROSS-DATASET EVALUATION: ")
-    print("accuracy : ", accuracy_score(y_test_b, pred))
-    print("precision : ", precision_score(y_test_b, pred, average='weighted'))
-    print("recall : ", recall_score(y_test_b, pred, average='weighted'))
-    print("f1 : ", f1_score(y_test_b, pred, average='weighted'))
+    print("accuracy : ", accuracy_score(y_b, pred))
+    print("precision : ", precision_score(y_b, pred, average='weighted'))
+    print("recall : ", recall_score(y_b, pred, average='weighted'))
+    print("f1 : ", f1_score(y_b, pred, average='weighted'))
     print("\n")
 
     results_cross = open('results_cross.txt','a')
-    txt=["CROSS-DATASET EVALUATION: \n","accuracy : ", str(accuracy_score(y_test_b, pred))," \n"+"precision : " + str(precision_score(y_test_b, pred, average='weighted'))," \n"+"recall : "+ str(recall_score(y_test_b, pred, average='weighted')), " \n"+"f1 : " + str(f1_score(y_test_b, pred, average='weighted'))+" \n"]
+    txt=["CROSS-DATASET EVALUATION: ",
+    "accuracy : ", str(accuracy_score(y_b, pred))+" \n",
+    "precision : " + str(precision_score(y_b, pred, average='weighted'))+" \n",
+    "recall : "+ str(recall_score(y_b, pred, average='weighted')) +" \n",
+    "f1 : " + str(f1_score(y_b, pred, average='weighted'))+" \n"]
     results_cross.writelines(txt)
     results_cross.close()
 
@@ -163,6 +170,8 @@ if __name__ == '__main__':
         "H3K14ac-clean.csv","H3K36me3-clean.csv","H3K79me3-clean.csv",
         "H4ac-clean.csv"]
 
+        model = cross_dataset_train(X,y,batch_size)
+
         for dataset in datasets:
             if dataset == ARGS.input_dataset:
                 continue
@@ -170,7 +179,7 @@ if __name__ == '__main__':
             X_b,y_b=load_csv(dataset)
             X_b = get_binary_words(X_b)
 
-            cross_dataset_evaluation(X,y,X_b,y_b,batch_size,splits)
+            cross_dataset_evaluation(model,X_b,y_b)
 
         exit()
 
@@ -193,3 +202,4 @@ if __name__ == '__main__':
     ('recall : ', 0.78301886792452835)
     ('f1 : ', 0.78301886792452835)
     """
+
