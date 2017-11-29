@@ -26,9 +26,7 @@ from keras.layers.convolutional import Conv1D, MaxPooling1D
 from keras.layers import LSTM, Bidirectional
 # from seya.layers.recurrent import Bidirectional
 
-from sklearn.decomposition import PCA
 
-data_dim = 6912
 
 
 def create_baseline_model(num_classes, inp_shape):
@@ -45,43 +43,91 @@ def create_baseline_model(num_classes, inp_shape):
     lrate = 0.001
     decay = lrate / epochs
     sgd = Adam(lr=lrate, epsilon=1e-08, decay=decay)
-    model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+    model.compile(loss='binary_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
     return model, epochs
 
 
+def cross_dataset_train(X,y,batch_size):
+
+    y=to_categorical(y)
+
+    model, epochs = create_baseline_model(y.shape[1],X.shape)
+
+    model.fit(X, y, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=False)
+
+    return model
+
+
+def cross_dataset_evaluation(model,X_b,y_b):
+    y_b=to_categorical(y_b)
+
+    pred = model.predict(X_b, verbose=0)
+
+    pred = [np.argmax(item) for item in pred]
+    y_b = [np.argmax(item) for item in y_b]
+
+    print("CROSS-DATASET EVALUATION: ")
+    print("accuracy : ", accuracy_score(y_b, pred))
+    print("precision : ", precision_score(y_b, pred, average='weighted'))
+    print("recall : ", recall_score(y_b, pred, average='weighted'))
+    print("f1 : ", f1_score(y_b, pred, average='weighted'))
+    print("\n")
+
+
 if __name__ == '__main__':
+    datasets=["H3-clean.csv","H4-clean.csv","H3K4me1-clean.csv",
+        "H3K4me2-clean.csv","H3K4me3-clean.csv","H3K9ac-clean.csv",
+        "H3K14ac-clean.csv","H3K36me3-clean.csv","H3K79me3-clean.csv",
+        "H4ac-clean.csv"]
 
     # assert len(sys.argv[1]) > 1
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input_dataset', help='input file', required=True)
+    parser.add_argument('-c', '--cross_dataset', help='cross dataset evaluation', required=False)
 
     ARGS = parser.parse_args()
     X, y = load_csv(ARGS.input_dataset)
 
-    X_binarized = preprocess(X)
-    inp_shape = X_binarized.shape
-    vals = [val.shape for val in X_binarized]
+    X = preprocess(X)
+    inp_shape = X.shape
 
-    X_train, X_test, y_train, y_test = train_test_split(X_binarized, y, test_size=0.33, random_state=42)
+    if ARGS.cross_dataset:
+        print("cross dataset experiment")
+        
 
-    y_train = np_utils.to_categorical(y_train)
-    y_test_ = np_utils.to_categorical(y_test)
+        model = cross_dataset_train(X,y,128)
 
-    num_classes = y_train.shape[1]
+        for dataset in datasets:
+            if dataset == ARGS.input_dataset:
+                continue
+            print("evaluating : ",dataset)
+            X_b,y_b=load_csv(dataset)
+            X_b = X = preprocess(X_b)
 
-    model, epochs = create_baseline_model(num_classes, inp_shape)
+            cross_dataset_evaluation(model,X_b,y_b)
 
-    seed = 7
-    np.random.seed(seed)
+        exit()
 
-    model.fit(X_train, y_train, validation_data=(X_test, y_test_), nb_epoch=epochs, batch_size=50)
+    #X_train, X_test, y_train, y_test = train_test_split(X_binarized, y, test_size=0.33, random_state=42)
+
+    #y_train = np_utils.to_categorical(y_train)
+    #y_test_ = np_utils.to_categorical(y_test)
+
+    #num_classes = y_train.shape[1]
+
+    #model, epochs = create_baseline_model(num_classes, inp_shape)
+
+    #seed = 7
+    #np.random.seed(seed)
+
+    #model.fit(X_train, y_train, validation_data=(X_test, y_test_), nb_epoch=epochs, batch_size=50)
     # Final evaluation of the model
-    pred = model.predict(X_test, verbose=0)
-    pred = [np.argmax(item) for item in pred]
+    #pred = model.predict(X_test, verbose=0)
+    #pred = [np.argmax(item) for item in pred]
 
-    print("accuracy : ", accuracy_score(y_test, pred))
-    print("precision : ", precision_score(y_test, pred, average='weighted'))
-    print("recall : ", recall_score(y_test, pred, average='weighted'))
-    print("f1 : ", f1_score(y_test, pred, average='weighted'))
-    print("\n")
+    #print("accuracy : ", accuracy_score(y_test, pred))
+    #print("precision : ", precision_score(y_test, pred, average='weighted'))
+    #print("recall : ", recall_score(y_test, pred, average='weighted'))
+    #print("f1 : ", f1_score(y_test, pred, average='weighted'))
+    #print("\n")
