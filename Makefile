@@ -92,6 +92,7 @@ DATASET="H3-clean.csv"
 CROSS_DATASET="H3K79me3-clean.csv"
 
 RECURRENT_FILE=recurrent.py
+BASELINE_FILE=baseline.py
 
 
 
@@ -111,6 +112,12 @@ train t:
 	@$(EXPORT_COMMAND) CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)
 	@$(PYTHON_COMMAND) $(RECURRENT_FILE) -i $(DATASET) -c $(CROSS_DATASET)
 
+baseline t:
+	@echo "[Train] Trainning baseline model [cross dataset]"
+	@echo "\t Using CUDA_VISIBLE_DEVICES: "$(CUDA_VISIBLE_DEVICES)
+	@$(EXPORT_COMMAND) CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)
+	@$(PYTHON_COMMAND) $(BASELINE_FILE) -i $(DATASET) -c $(CROSS_DATASET)
+
 
 dataset d: excuda-devise
 	@echo "[preprocessing] preprocessing dataset..."
@@ -129,6 +136,10 @@ endif
 ##############################################################################
 run-train rc: docker-print
 	@$(DOCKER_RUN_COMMAND) bash -c "make train CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES) DATASET=$(DATASET) CROSS_DATASET=$(CROSS_DATASET)"; \
+	status=$$
+
+run-baseline rc: docker-print
+	@$(DOCKER_RUN_COMMAND) bash -c "make baseline CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES) DATASET=$(DATASET) CROSS_DATASET=$(CROSS_DATASET)"; \
 	status=$$
 
 
