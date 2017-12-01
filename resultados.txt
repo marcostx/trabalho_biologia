@@ -332,22 +332,227 @@ f1 : mean=0.968736339215, std=0.00894503509939
 
 ----------------------------------------------------------------------
 
-resultados cross dataset
+resultados cross dataset (treinando com H3)
 
-trainando com h3 e testando em h3K79me3
-accuracy: 1.0
-precision: 1.0
-recall: 1.0
-f1: 1.0
+evaluating :  H4-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999863004315
+precision :  0.999726027399
+recall :  0.999863004315
+f1 :  0.999794511165
+
+
+evaluating :  H3K4me1-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999652722968
+precision :  0.999305566537
+recall :  0.999652722968
+f1 :  0.999479114607
+
+
+evaluating :  H3K4me2-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999315537303
+precision :  0.998631543096
+recall :  0.999315537303
+f1 :  0.998973423117
+
+
+evaluating :  H3K4me3-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999048809653
+precision :  0.99809852407
+recall :  0.999048809653
+f1 :  0.998573440778
+
+
+evaluating :  H3K9ac-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.99895612109
+precision :  0.997913331863
+recall :  0.99895612109
+f1 :  0.998434454198
+
+
+evaluating :  H3K14ac-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999515811772
+precision :  0.999031857982
+recall :  0.999515811772
+f1 :  0.999273776281
+
+
+evaluating :  H3K36me3-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.998910487987
+precision :  0.99782216301
+recall :  0.998910487987
+f1 :  0.998366028901
+
+
+evaluating :  H3K79me3-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.997433674354
+precision :  0.994873934735
+recall :  0.997433674354
+f1 :  0.996152160153
+
+
+evaluating :  H4ac-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999296043176
+precision :  0.998592581907
+recall :  0.999296043176
+f1 :  0.998944188696
+
+resultados cross dataset (treinando com H4)
+
+evaluating :  H3-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999799505447
+precision :  0.999599051092
+recall :  0.999799505447
+f1 :  0.999699268221
+
+
+evaluating :  H3K4me1-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999652722968
+precision :  0.999305566537
+recall :  0.999652722968
+f1 :  0.999479114607
+
+
+evaluating :  H3K4me2-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999315537303
+precision :  0.998631543096
+recall :  0.999315537303
+f1 :  0.998973423117
+
+
+evaluating :  H3K4me3-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999048809653
+precision :  0.99809852407
+recall :  0.999048809653
+f1 :  0.998573440778
+
+
+evaluating :  H3K9ac-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.99895612109
+precision :  0.997913331863
+recall :  0.99895612109
+f1 :  0.998434454198
+
+
+evaluating :  H3K14ac-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999515811772
+precision :  0.999031857982
+recall :  0.999515811772
+f1 :  0.999273776281
+
+
+evaluating :  H3K36me3-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.998910487987
+precision :  0.99782216301
+recall :  0.998910487987
+f1 :  0.998366028901
+
+
+evaluating :  H3K79me3-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.997433674354
+precision :  0.994873934735
+recall :  0.997433674354
+f1 :  0.996152160153
+
+
+evaluating :  H4ac-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999296043176
+precision :  0.998592581907
+recall :  0.999296043176
+f1 :  0.998944188696
 
 
 
 ---------------------------------------------------------------------------------------------------
 
-resultados usando cnn+lstm
+resultados baseline treinando comm H4
+evaluating :  H3-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999799505447
+/usr/local/lib/python3.5/dist-packages/sklearn/metrics/classification.py:1113: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples.
+  'precision', 'predicted', average, warn_for)
+precision :  0.999599051092
+recall :  0.999799505447
+/usr/local/lib/python3.5/dist-packages/sklearn/metrics/classification.py:1113: UndefinedMetricWarning: F-score is ill-defined and being set to 0.0 in labels with no predicted samples.
+  'precision', 'predicted', average, warn_for)
+f1 :  0.999699268221
 
-resultados splice kfold=10                       
-accuracy : mean=0.957061589214, std=0.0153989177224                                      
-precision : mean=0.958352740868, std=0.0146496133869                                     
-recall : mean=0.957061589214, std=0.0153989177224                                        
-f1 : mean=0.957096480328, std=0.0154418919516 
+
+evaluating :  H3K4me1-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999652722968
+precision :  0.999305566537
+recall :  0.999652722968
+f1 :  0.999479114607
+
+evaluating :  H3K4me2-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999315537303
+precision :  0.998631543096
+recall :  0.999315537303
+f1 :  0.998973423117
+
+
+evaluating :  H3K4me3-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999048809653
+precision :  0.99809852407
+recall :  0.999048809653
+f1 :  0.998573440778
+
+
+evaluating :  H3K9ac-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.99895612109
+precision :  0.997913331863
+recall :  0.99895612109
+f1 :  0.998434454198
+
+
+evaluating :  H3K14ac-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999515811772
+precision :  0.999031857982
+recall :  0.999515811772
+f1 :  0.999273776281
+
+
+evaluating :  H3K36me3-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.998910487987
+precision :  0.99782216301
+recall :  0.998910487987
+f1 :  0.998366028901
+
+
+evaluating :  H3K79me3-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.997433674354
+precision :  0.994873934735
+recall :  0.997433674354
+f1 :  0.996152160153
+
+
+evaluating :  H4ac-clean.csv
+CROSS-DATASET EVALUATION: 
+accuracy :  0.999296043176
+precision :  0.998592581907
+recall :  0.999296043176
+f1 :  0.998944188696
