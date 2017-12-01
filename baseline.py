@@ -13,11 +13,19 @@ from sklearn.model_selection import train_test_split
 import itertools
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from keras.utils import np_utils
+<<<<<<< HEAD
+from keras.utils.np_utils import to_categorical
+=======
+>>>>>>> 06596a5ea23773725a130928de08fc0b339999ce
 from keras import initializers
 from matplotlib import pyplot
 from keras.utils.np_utils import to_categorical
 import keras
 from utils import *
+<<<<<<< HEAD
+from keras.layers.core import Dense, Dropout, Activation, Flatten
+=======
+>>>>>>> 06596a5ea23773725a130928de08fc0b339999ce
 # from seya.layers.recurrent import Bidirectional
 
 
