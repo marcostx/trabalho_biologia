@@ -11,6 +11,7 @@ from sklearn.model_selection import StratifiedKFold
 import matplotlib.pyplot as plt
 from utils import *
 import warnings
+from sklearn.svm import SVC
 warnings.filterwarnings('ignore')
 
 
@@ -30,12 +31,13 @@ def train_and_evaluate(X,y,batch_size,splits,simple=False):
 
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
+        #y_train = to_categorical(y_train)
+        #y_test  = to_categorical(y_test)
 
+        support_vector_model = SVC()
+        support_vector_model.fit(X_train,y_train)
 
-        y_train = to_categorical(y_train)
-        y_test  = to_categorical(y_test)
-
-
+        pred = support_vector_model.predict(X_test, y_test)
         #print("accuracy : ", accuracy_score(y_test, pred))
         #print("precision : ", precision_score(y_test, pred, average='weighted'))
         #print("recall : ", recall_score(y_test, pred, average='weighted'))
@@ -61,21 +63,21 @@ if __name__ == '__main__':
         "H3K14ac-clean.csv","H3K36me3-clean.csv","H3K79me3-clean.csv",
         "H4ac-clean.csv"]
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input_dataset', help='input file', required=False)
-
-    ARGS = parser.parse_args()
-
-    X,y = load_csv(ARGS.input_dataset)
+    #parser = argparse.ArgumentParser()
+    #parser.add_argument('-i', '--input_dataset', help='input file', required=False)
     splits=10
+    #ARGS = parser.parse_args()
+    for dataset in datasets:
+        print("Evaluating , ",dataset)
+        X,y = load_csv(dataset)
 
-    X = get_binary_words(X)
+        X = get_binary_words(X)
 
-    results = train_and_evaluate(X,y,splits)
+        results = train_and_evaluate(X,y,splits)
 
-    print("mean metrics cv=10")
-    print("accuracy : mean={}, std={}".format(np.mean(results[0]),np.std(results[0])))
-    print("precision : mean={}, std={}".format(np.mean(results[1]),np.std(results[1])))
-    print("recall : mean={}, std={}".format(np.mean(results[2]),np.std(results[2])))
-    print("f1 : mean={}, std={}".format(np.mean(results[3]),np.std(results[3])))
-    print("\n")
+        print("mean SVM metrics cv=10")
+        print("accuracy : mean={}, std={}".format(np.mean(results[0]),np.std(results[0])))
+        print("precision : mean={}, std={}".format(np.mean(results[1]),np.std(results[1])))
+        print("recall : mean={}, std={}".format(np.mean(results[2]),np.std(results[2])))
+        print("f1 : mean={}, std={}".format(np.mean(results[3]),np.std(results[3])))
+        print("\n")

@@ -93,6 +93,7 @@ CROSS_DATASET="H3K79me3-clean.csv"
 
 RECURRENT_FILE=recurrent.py
 BASELINE_FILE=baseline.py
+SVM_FILE=baseline_svm.py
 
 
 
@@ -118,6 +119,12 @@ baseline t:
 	@$(EXPORT_COMMAND) CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)
 	@$(PYTHON_COMMAND) $(BASELINE_FILE) -i $(DATASET) -c $(CROSS_DATASET)
 
+svm_baseline t:
+		@echo "[Train] Trainning baseline model [cross dataset]"
+		@echo "\t Using CUDA_VISIBLE_DEVICES: "$(CUDA_VISIBLE_DEVICES)
+		@$(EXPORT_COMMAND) CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)
+		@$(PYTHON_COMMAND) $(SVM_FILE)
+
 
 dataset d: excuda-devise
 	@echo "[preprocessing] preprocessing dataset..."
@@ -141,6 +148,10 @@ run-train rc: docker-print
 run-baseline rc: docker-print
 	@$(DOCKER_RUN_COMMAND) bash -c "make baseline CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES) DATASET=$(DATASET) CROSS_DATASET=$(CROSS_DATASET)"; \
 	status=$$
+
+run-svm rc: docker-print
+		@$(DOCKER_RUN_COMMAND) bash -c "make svm_baseline CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)"; \
+		status=$$
 
 
 run-dataset rd: docker-print
