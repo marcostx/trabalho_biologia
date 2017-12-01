@@ -334,7 +334,7 @@ f1 : mean=0.968736339215, std=0.00894503509939
 
 resultados cross dataset (treinando com H3)
 
-^Tevaluating :  H4-clean.csv
+evaluating :  H4-clean.csv
 CROSS-DATASET EVALUATION: 
 accuracy :  0.999863004315
 precision :  0.999726027399
@@ -489,3 +489,4 @@ accuracy : mean=0.957061589214, std=0.0153989177224
 precision : mean=0.958352740868, std=0.0146496133869                                     
 recall : mean=0.957061589214, std=0.0153989177224                                        
 f1 : mean=0.957096480328, std=0.0154418919516 
+
