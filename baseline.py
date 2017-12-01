@@ -1,5 +1,4 @@
 import collections, sys
-from Bio import Seq, SeqIO, SeqRecord
 import itertools
 from parser import load_csv
 import numpy as np
@@ -14,18 +13,26 @@ from sklearn.model_selection import train_test_split
 import itertools
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from keras.utils import np_utils
+<<<<<<< HEAD
 from keras.utils.np_utils import to_categorical
+=======
+>>>>>>> 06596a5ea23773725a130928de08fc0b339999ce
 from keras import initializers
 from matplotlib import pyplot
+from keras.utils.np_utils import to_categorical
 import keras
 from utils import *
+<<<<<<< HEAD
 from keras.layers.core import Dense, Dropout, Activation, Flatten
+=======
+>>>>>>> 06596a5ea23773725a130928de08fc0b339999ce
 # from seya.layers.recurrent import Bidirectional
 
 
 
 
 def create_baseline_model(num_classes, inp_shape):
+    
     model = Sequential()
     model.add(Conv2D(32, kernel_size=(1, 1), activation='relu', input_shape=(inp_shape[1], inp_shape[0], inp_shape[2])))
     model.add(MaxPooling2D(pool_size=(1, 1)))
@@ -35,7 +42,7 @@ def create_baseline_model(num_classes, inp_shape):
     model.add(Dense(100, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(num_classes, activation='softmax'))
-    epochs = 120
+    epochs = 30
     lrate = 0.001
     decay = lrate / epochs
     sgd = Adam(lr=lrate, epsilon=1e-08, decay=decay)
@@ -47,8 +54,9 @@ def create_baseline_model(num_classes, inp_shape):
 def cross_dataset_train(X,y,batch_size):
 
     y=to_categorical(y)
-
-    model, epochs = create_baseline_model(y.shape[1],X.shape)
+    
+    model, epochs = create_baseline_model(y.shape[1],X.shape[1:])
+    X = X.reshape((X.shape[0],X.shape[2],X.shape[1],X.shape[3]))
 
     model.fit(X, y, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=False)
 
@@ -57,7 +65,7 @@ def cross_dataset_train(X,y,batch_size):
 
 def cross_dataset_evaluation(model,X_b,y_b):
     y_b=to_categorical(y_b)
-
+    X_b = X_b.reshape((X_b.shape[0],X_b.shape[2],X_b.shape[1],X_b.shape[3]))
     pred = model.predict(X_b, verbose=0)
 
     pred = [np.argmax(item) for item in pred]
@@ -102,7 +110,7 @@ if __name__ == '__main__':
             X_b = X = preprocess(X_b)
 
             cross_dataset_evaluation(model,X_b,y_b)
-
+            
         exit()
 
     #X_train, X_test, y_train, y_test = train_test_split(X_binarized, y, test_size=0.33, random_state=42)

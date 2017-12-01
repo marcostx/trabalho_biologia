@@ -89,7 +89,7 @@ def binary_representation(fn, k=3, limit=1):
         f_ = np.array(dict_words[kms[idx]])
         s_ = np.array(dict_words[kms[idx + 1]])
 
-        representation.append(np.append(f_, s_))
+        representation.append(np.stack((f_,s_)))
 
     representation = np.array(representation)
 

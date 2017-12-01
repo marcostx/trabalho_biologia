@@ -142,12 +142,12 @@ def cross_dataset_evaluation(model,X_b,y_b):
     print("\n")
 
     results_cross = open('results_cross.txt','a')
-    txt="CROSS-DATASET EVALUATION: "+
-    "accuracy : ", str(accuracy_score(y_b, pred))+" \n"
-    "precision : " + str(precision_score(y_b, pred, average='weighted'))+" \n"
-    "recall : "+ str(recall_score(y_b, pred, average='weighted')) +" \n"
-    "f1 : " + str(f1_score(y_b, pred, average='weighted'))+" \n"
-    results_cross.writelines([txt])
+    txt=["CROSS-DATASET EVALUATION: ",
+    "accuracy : ", str(accuracy_score(y_b, pred))+" \n",
+    "precision : " + str(precision_score(y_b, pred, average='weighted'))+" \n",
+    "recall : "+ str(recall_score(y_b, pred, average='weighted')) +" \n",
+    "f1 : " + str(f1_score(y_b, pred, average='weighted'))+" \n"]
+    results_cross.writelines(txt)
     results_cross.close()
 
 
@@ -237,3 +237,4 @@ if __name__ == '__main__':
     ('recall : ', 0.78301886792452835)
     ('f1 : ', 0.78301886792452835)
     """
+

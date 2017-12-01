@@ -88,7 +88,7 @@ PREPROCESSING_FOLDER=./preprocessing
 IMAGENET_CHECKPOINTS_FOLDER=./imagenet_checkpoints
 
 
-DATASET="H3-clean.csv"
+DATASET="H4-clean.csv"
 CROSS_DATASET="H3K79me3-clean.csv"
 
 RECURRENT_FILE=recurrent.py
@@ -110,7 +110,7 @@ train t:
 	@echo "[Train] Trainning recurrent model"
 	@echo "\t Using CUDA_VISIBLE_DEVICES: "$(CUDA_VISIBLE_DEVICES)
 	@$(EXPORT_COMMAND) CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)
-	@$(PYTHON_COMMAND) $(RECURRENT_FILE) -i $(DATASET) -c $(CROSS_DATASET)
+	@$(PYTHON_COMMAND) $(RECURRENT_FILE) -i $(DATASET) -c $(CROSS_DATAET)
 
 baseline t:
 	@echo "[Train] Trainning baseline model [cross dataset]"
