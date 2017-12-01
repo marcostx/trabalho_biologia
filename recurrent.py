@@ -121,7 +121,7 @@ def cross_dataset_train(X,y,batch_size):
 
     model, epochs = create_recurrent_model(y.shape[1],X.shape[1:])
 
-    model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=False)
+    model.fit(X, y, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=False)
 
     return model
 

@@ -14,16 +14,12 @@ from sklearn.model_selection import train_test_split
 import itertools
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from keras.utils import np_utils
-from keras.layers.recurrent import LSTM
-from keras.layers import SimpleRNN
-from gensim.models import Word2Vec
+from keras.utils.np_utils import to_categorical
 from keras import initializers
 from matplotlib import pyplot
 import keras
 from utils import *
 from keras.layers.core import Dense, Dropout, Activation, Flatten
-from keras.layers.convolutional import Conv1D, MaxPooling1D
-from keras.layers import LSTM, Bidirectional
 # from seya.layers.recurrent import Bidirectional
 
 
