@@ -12,7 +12,51 @@ import matplotlib.pyplot as plt
 from utils import *
 import warnings
 from sklearn.svm import SVC
+import collections, sys
+from parser import load_csv
+import argparse
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Flatten, Embedding
+from keras.constraints import maxnorm
+from keras.optimizers import SGD
+from keras.layers import Conv2D, MaxPooling2D
+from keras.optimizers import Adam
+import itertools
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from keras.utils import np_utils
+from keras.layers.recurrent import LSTM
+from keras.layers import SimpleRNN
+from sklearn.feature_extraction.text import CountVectorizer
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
+from keras.models import Sequential
+from keras.layers import Dense, Embedding, LSTM
+from sklearn.model_selection import train_test_split
+from keras.layers.normalization import BatchNormalization
+from keras.utils.np_utils import to_categorical
+from keras import initializers
+from sklearn.model_selection import LeaveOneOut,StratifiedKFold
+import matplotlib.pyplot as plt
+from utils import *
+import warnings
 warnings.filterwarnings('ignore')
+
+def create_model(num_classes,inp_shape,simple=False):
+    epochs = 5
+
+    print('building model')
+
+    model = Sequential()
+    model.add(Dense(100, activation='relu', input_shape=inp_shape))
+    model.add(Dense(num_classes, activation='softmax'))
+
+    print('compiling model')
+    if num_classes==2:
+        model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    else:
+        model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+    return model, epochs
 
 
 def train_and_evaluate(X,y,batch_size,splits,simple=False):
@@ -31,14 +75,18 @@ def train_and_evaluate(X,y,batch_size,splits,simple=False):
 
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
-        #y_train = to_categorical(y_train)
-        #y_test  = to_categorical(y_test)
+       
+        y_train = to_categorical(y_train)
+        y_test  = to_categorical(y_test)
 
-        support_vector_model = SVC()
-        support_vector_model.fit(X_train,y_train)
+        model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
+        model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=True,validation_data=(X_test,y_test))
 
-        pred = support_vector_model.predict(X_test, y_test)
-        #print("accuracy : ", accuracy_score(y_test, pred))
+        pred = model.predict(X_test, verbose=0)
+
+        pred = [np.argmax(item) for item in pred]
+        y_test = [np.argmax(item) for item in y_test]
+        print("accuracy : ", accuracy_score(y_test, pred))
         #print("precision : ", precision_score(y_test, pred, average='weighted'))
         #print("recall : ", recall_score(y_test, pred, average='weighted'))
         #print("f1 : ", f1_score(y_test, pred, average='weighted'))
@@ -75,7 +123,7 @@ if __name__ == '__main__':
 
         results = train_and_evaluate(X,y,splits)
 
-        print("mean SVM metrics cv=10")
+        print("mean metrics cv=10")
         print("accuracy : mean={}, std={}".format(np.mean(results[0]),np.std(results[0])))
         print("precision : mean={}, std={}".format(np.mean(results[1]),np.std(results[1])))
         print("recall : mean={}, std={}".format(np.mean(results[2]),np.std(results[2])))
