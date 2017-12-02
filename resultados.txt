@@ -556,3 +556,48 @@ accuracy :  0.999296043176
 precision :  0.998592581907
 recall :  0.999296043176
 f1 :  0.998944188696
+
+
+
+----------------------
+
+resultados rede fully-connected simples
+
+Evaluating ,  H3-clean.csv
+accuracy : mean=0.7491740344626681, std=0.023725448199329428
+
+
+Evaluating ,  H4-clean.csv
+accuracy : mean=0.6442206615527618, std=0.021652066974130472
+
+
+Evaluating ,  H3K4me1-clean.csv
+accuracy : mean=0.5603788625353512, std=0.016085161898812008
+
+
+Evaluating ,  H3K4me2-clean.csv
+accuracy : mean=0.6347571292789957, std=0.01056696165062499
+
+
+Evaluating ,  H3K4me3-clean.csv
+accuracy : mean=0.5383458647171746, std=0.009755514446067818
+
+
+Evaluating ,  H3K9ac-clean.csv
+accuracy : mean=0.6219008571538704, std=0.0063807615240964715
+
+
+Evaluating ,  H3K14ac-clean.csv
+accuracy : mean=0.5600864242249686, std=0.015429610657289757
+
+
+Evaluating ,  H3K36me3-clean.csv
+accuracy : mean=0.571363187448531, std=0.032792466433846014
+
+
+Evaluating ,  H3K79me3-clean.csv
+accuracy : mean=0.5641765565323146, std=0.03093524715594274
+
+
+Evaluating ,  H4ac-clean.csv
+accuracy : mean=0.5890356560045903, std=0.011830315978568665
