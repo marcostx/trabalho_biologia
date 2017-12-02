@@ -201,7 +201,7 @@ if __name__ == '__main__':
 
     X = get_binary_words(X)
 
-    if ARGS.cross_dataset:
+    """if ARGS.cross_dataset:
         print("cross dataset experiment")
         
 
@@ -225,7 +225,21 @@ if __name__ == '__main__':
     print("precision : mean={}, std={}".format(np.mean(results[1]),np.std(results[1])))
     print("recall : mean={}, std={}".format(np.mean(results[2]),np.std(results[2])))
     print("f1 : mean={}, std={}".format(np.mean(results[3]),np.std(results[3])))
-    print("\n")
+    print("\n")"""
+    for dataset in datasets:
+        print("Evaluating , ",dataset)
+        X,y = load_csv(dataset)
+
+        X = get_binary_words(X)
+
+        results = train_and_evaluate(X,y,splits)
+
+        print("mean SVM metrics cv=10")
+        print("accuracy : mean={}, std={}".format(np.mean(results[0]),np.std(results[0])))
+        print("precision : mean={}, std={}".format(np.mean(results[1]),np.std(results[1])))
+        print("recall : mean={}, std={}".format(np.mean(results[2]),np.std(results[2])))
+        print("f1 : mean={}, std={}".format(np.mean(results[3]),np.std(results[3])))
+        print("\n")
 
 
 

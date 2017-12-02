@@ -79,14 +79,14 @@ def train_and_evaluate(X,y,batch_size,splits,simple=False):
         y_train = to_categorical(y_train)
         y_test  = to_categorical(y_test)
 
-        model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
-        model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=True,validation_data=(X_test,y_test))
+        model, epochs = create_model(y_train.shape[1],X_train.shape[1:])
+        model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=False,validation_data=(X_test,y_test))
 
         pred = model.predict(X_test, verbose=0)
 
         pred = [np.argmax(item) for item in pred]
         y_test = [np.argmax(item) for item in y_test]
-        print("accuracy : ", accuracy_score(y_test, pred))
+        #print("accuracy : ", accuracy_score(y_test, pred))
         #print("precision : ", precision_score(y_test, pred, average='weighted'))
         #print("recall : ", recall_score(y_test, pred, average='weighted'))
         #print("f1 : ", f1_score(y_test, pred, average='weighted'))
@@ -121,11 +121,11 @@ if __name__ == '__main__':
 
         X = get_binary_words(X)
 
-        results = train_and_evaluate(X,y,splits)
+        results = train_and_evaluate(X,y,128,splits)
 
         print("mean metrics cv=10")
         print("accuracy : mean={}, std={}".format(np.mean(results[0]),np.std(results[0])))
-        print("precision : mean={}, std={}".format(np.mean(results[1]),np.std(results[1])))
-        print("recall : mean={}, std={}".format(np.mean(results[2]),np.std(results[2])))
-        print("f1 : mean={}, std={}".format(np.mean(results[3]),np.std(results[3])))
+        #print("precision : mean={}, std={}".format(np.mean(results[1]),np.std(results[1])))
+        #print("recall : mean={}, std={}".format(np.mean(results[2]),np.std(results[2])))
+        #print("f1 : mean={}, std={}".format(np.mean(results[3]),np.std(results[3])))
         print("\n")

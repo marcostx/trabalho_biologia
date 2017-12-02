@@ -28,12 +28,7 @@ def load_csv(input_file='dataset.csv'):
             #print(preprocessed)
 
             X.append(preprocessed)
-            if not target in available:
-                classes += 1
-                y.append(classes)
-                available.append(target)
-            else:
-                y.append(classes)
+            y.append(int(target))
 
     
     return X,np.array(y)
