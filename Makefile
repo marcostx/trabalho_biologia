@@ -24,7 +24,7 @@ PROCESS_DATASET=""
 #Path to src folder
 HOST_CPU_SOURCE_PATH=$(shell pwd)
 HOST_GPU_SOURCE_PATH=$(shell pwd)
-HOST_GPU_DATASET_PATH=/datasets/marcostx/bio
+HOST_GPU_DATASET_PATH=datasets
 
 ##############################################################################
 ############################# DOCKER VARS ####################################
