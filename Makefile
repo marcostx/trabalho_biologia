@@ -93,9 +93,7 @@ CROSS_DATASET="H3K79me3-clean.csv"
 
 RECURRENT_FILE=recurrent.py
 BASELINE_FILE=baseline.py
-SVM_FILE=baseline_svm.py
-
-
+NET_FILE=baseline_net.py
 
 
 ##############################################################################
@@ -113,17 +111,11 @@ train t:
 	@$(EXPORT_COMMAND) CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)
 	@$(PYTHON_COMMAND) $(RECURRENT_FILE)
 
-baseline t:
-	@echo "[Train] Trainning baseline model [cross dataset]"
-	@echo "\t Using CUDA_VISIBLE_DEVICES: "$(CUDA_VISIBLE_DEVICES)
-	@$(EXPORT_COMMAND) CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)
-	@$(PYTHON_COMMAND) $(BASELINE_FILE) -i $(DATASET) -c $(CROSS_DATASET)
-
-svm_baseline t:
+net_baseline t:
 		@echo "[Train] Trainning baseline model [cross dataset]"
 		@echo "\t Using CUDA_VISIBLE_DEVICES: "$(CUDA_VISIBLE_DEVICES)
 		@$(EXPORT_COMMAND) CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)
-		@$(PYTHON_COMMAND) $(SVM_FILE)
+		@$(PYTHON_COMMAND) $(NET_FILE)
 
 
 dataset d: excuda-devise

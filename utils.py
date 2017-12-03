@@ -1,20 +1,7 @@
-import collections, sys
-import itertools
-from parser import load_csv
+import collections
+
 import numpy as np
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten
-from keras.constraints import maxnorm
-from keras.optimizers import SGD
-from keras.layers import Conv2D, MaxPooling2D
-from keras.optimizers import Adam
-from sklearn.model_selection import train_test_split
 import itertools
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-from keras.utils import np_utils
-from keras.layers.recurrent import LSTM
-from keras.layers import SimpleRNN
-from keras import initializers
 import matplotlib.pyplot as plt
 
 
@@ -58,10 +45,6 @@ def create_dict_words():
         binary_words[''.join(j)] = _
 
     return binary_words
-
-
-def twin(km):
-    return Seq.reverse_complement(km)
 
 
 def kmers(seq, k):
