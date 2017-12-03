@@ -11,7 +11,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 def create_model(num_classes,inp_shape,simple=False):
-    epochs = 5
+    epochs = 120
 
     print('building model')
 
@@ -119,30 +119,11 @@ if __name__ == '__main__':
 
     for dataset in datasets:
         print("Evaluating , ",dataset)
-        X, y = [], []
-        classes = -1
-        available = []
-        input_file = "datasets/original/" + dataset
-
-        with open(input_file) as raw_data:
-            data = csv.reader(raw_data, delimiter=',')
-            for idx, val in enumerate(data):
-                if idx == 0:
-                    continue
-                sequence = val[2]
-                target = val[0]
-                preprocessed = sequence.replace(" ", "")
-
-                X.append(preprocessed)
-                if not target in available:
-                    classes += 1
-                    y.append(classes)
-                    available.append(target)
-                else:
-                    y.append(classes)
-
-        X = get_binary_words(X)
-        results = train_and_evaluate(X,y,batch_size,splits)
+        X,y=load_csv(dataset)
+        print("preprocessing ...")
+        X = get_binary_words(X,flatten_words=True)
+        print("training ...")
+        results = train_and_evaluate(X,np.array(y),batch_size,splits)
 
         print("mean metrics cv=10")
         print("accuracy : mean={}, std={}".format(np.mean(results[0]),np.std(results[0])))

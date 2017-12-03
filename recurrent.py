@@ -17,7 +17,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 def create_recurrent_model(num_classes,inp_shape,simple=False):
-    epochs = 30
+    epochs = 120
 
     print('building model')
 
@@ -35,7 +35,7 @@ def create_recurrent_model(num_classes,inp_shape,simple=False):
 
     model.add(Dropout(0.5))
     model.add(Flatten())
-    model.add(Dense(100, activation='relu'))
+    model.add(Dense(300, activation='relu'))
 
     model.add(Dense(num_classes, activation='softmax'))
 
@@ -256,7 +256,7 @@ if __name__ == '__main__':
                 continue
             print("evaluating : ",dataset)
             X_b,y_b=load_csv(dataset)
-            X_b = get_binary_words(X_b)
+            X_b = get_binary_words(X_b,flatten_words=True)
 
             cross_dataset_evaluation(model,X_b,y_b)
 

@@ -13,7 +13,7 @@ GPU_DOCKER_IMAGE=tensorflow-opencv-py3
 ############################# Exposed vars ###################################
 ##############################################################################
 # enable/disable GPU usage
-GPU=true
+GPU=false
 # Config file used to experiment
 CONFIG_FILE="configs/config.json"
 # List of cuda devises
@@ -141,8 +141,8 @@ run-baseline rc: docker-print
 	@$(DOCKER_RUN_COMMAND) bash -c "make baseline CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES) DATASET=$(DATASET) CROSS_DATASET=$(CROSS_DATASET)"; \
 	status=$$
 
-run-svm rc: docker-print
-		@$(DOCKER_RUN_COMMAND) bash -c "make svm_baseline CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)"; \
+run-net-baseline rc: docker-print
+		@$(DOCKER_RUN_COMMAND) bash -c "make net_baseline CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)"; \
 		status=$$
 
 

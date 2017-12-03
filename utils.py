@@ -1,5 +1,5 @@
 import collections
-
+import csv
 import numpy as np
 import itertools
 import matplotlib.pyplot as plt
@@ -59,6 +59,7 @@ def kmers(seq, k):
     return kmer
 
 
+
 def binary_representation(fn, k=3, limit=1):
     d = collections.defaultdict(int)
     dict_words = create_dict_words()
@@ -102,7 +103,51 @@ def transform_to_vectors(X, dict_words):
 
     return np.array(new_x)
 
-def get_binary_words(vector_sentences):
+def load_csv(dataset):
+    X, y = [], []
+    classes = -1
+    available = []
+    input_file = "datasets/" + dataset
+    with open(input_file) as raw_data:
+        data = csv.reader(raw_data, delimiter=',')
+        for idx, val in enumerate(data):
+            if idx == 0:
+                continue
+            sequence = val[2]
+            target = val[0]
+            preprocessed = sequence.replace(" ", "")
+
+            X.append(preprocessed)
+            if not dataset=='splice.csv':
+                y.append(int(target))
+            else:
+                if not target in available:
+                    classes += 1
+                    y.append(classes)
+                    available.append(target)
+                else:
+                    y.append(classes)
+
+    y=np.array(y)
+
+    return X,y
+
+
+def oneHotEncoding(y, classes=10):
+    n_labels = y.shape[0]
+    labels_one_hot = np.zeros((n_labels, classes))
+    labels_one_hot[np.arange(n_labels), y] = 1
+
+    return labels_one_hot
+
+
+def preproc(x):
+    """Convert values to range 0-1"""
+    batch_normalized = x / x.max()
+
+    return batch_normalized
+
+def get_binary_words(vector_sentences,flatten_words=False):
     sentences = []
     k=3
     nucleotides={'a':[1,0,0,0],'t':[0,1,0,0],'c':[0,0,1,0],'g':[0,0,0,1],
@@ -143,8 +188,9 @@ def get_binary_words(vector_sentences):
 
             word_rep = np.array(word_rep)
             words.append(word_rep.flatten())
-        words=np.array(words)
-        words= words.flatten()
+        if flatten_words:
+            words=np.array(words)
+            words= words.flatten()
         sentences.append(words)
     sentences = np.array(sentences)
 
