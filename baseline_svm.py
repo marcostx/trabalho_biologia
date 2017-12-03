@@ -79,8 +79,8 @@ def train_and_evaluate(X,y,batch_size,splits,simple=False):
         y_train = to_categorical(y_train)
         y_test  = to_categorical(y_test)
 
-        model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
-        model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=True,validation_data=(X_test,y_test))
+        model, epochs = create_model(y_train.shape[1],X_train.shape[1:])
+        model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=False,validation_data=(X_test,y_test))
 
         pred = model.predict(X_test, verbose=0)
 
@@ -111,6 +111,7 @@ if __name__ == '__main__':
         "H3K14ac-clean.csv","H3K36me3-clean.csv","H3K79me3-clean.csv",
         "H4ac-clean.csv"]
 
+
     #parser = argparse.ArgumentParser()
     #parser.add_argument('-i', '--input_dataset', help='input file', required=False)
     splits=10
@@ -121,7 +122,7 @@ if __name__ == '__main__':
 
         X = get_binary_words(X)
 
-        results = train_and_evaluate(X,y,splits)
+        results = train_and_evaluate(X,y,128,splits)
 
         print("mean metrics cv=10")
         print("accuracy : mean={}, std={}".format(np.mean(results[0]),np.std(results[0])))

@@ -115,6 +115,36 @@ def train_and_evaluate(X,y,batch_size,splits,simple=False):
     return results
 
 
+
+def train_and_evaluate2(X,y,batch_size,splits):
+    X_train, X_test, y_train, y_train = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # validation split
+
+    fold=0
+
+    y_train = to_categorical(y_train)
+    y_test  = to_categorical(y_test)
+
+    model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
+
+    model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=True,validation_data=(X_test,y_test))
+
+    pred = model.predict(X_test, verbose=0)
+
+    pred = [np.argmax(item) for item in pred]
+    y_test = [np.argmax(item) for item in y_test]
+
+    kf = StratifiedKFold(n_splits=splits)
+    accs,pres,recalls,f1s = [],[],[],[]
+
+    print("accuracy : ", accuracy_score(y_test, pred))
+    print("precision : ", precision_score(y_test, pred, average='weighted'))
+    print("recall : ", recall_score(y_test, pred, average='weighted'))
+    print("f1 : ", f1_score(y_test, pred, average='weighted'))
+    print("\n")
+
+
 def cross_dataset_train(X,y,batch_size):
 
     y=to_categorical(y)

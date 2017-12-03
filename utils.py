@@ -32,13 +32,13 @@ def confusion_matrix(cm,title='Confusion matrix',cmap=plt.cm.Blues):
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
     """
-    
+
     print('Confusion matrix plot')
 
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
     plt.title(title)
     plt.colorbar()
-    
+
 
     plt.tight_layout()
     plt.ylabel('True label')
@@ -131,7 +131,7 @@ def get_binary_words(vector_sentences):
         words = []
         kms = kmers(sentence, k)
         for val in kms:
-            
+
             word_rep=[]
             for symbol in val:
                 rep = np.zeros(4)
@@ -143,15 +143,15 @@ def get_binary_words(vector_sentences):
                 elif symbol == 'N':
                     ambig = np.random.choice((0,1,2,3),1,replace=False)
                     rep[ambig]=1
-                    
+
                 elif symbol == 'S':
                     ambig = np.random.choice((2,3),1,replace=False)
                     rep[ambig]=1
-                    
+
                 elif symbol == 'R':
                     ambig = np.random.choice((0,3),1,replace=False)
                     rep[ambig]=1
-                    
+
                 else:
                     rep = nucleotides[symbol]
 
@@ -159,11 +159,11 @@ def get_binary_words(vector_sentences):
 
 
             word_rep = np.array(word_rep)
-            words.append(word_rep.flatten())    
-            
+            words.append(word_rep.flatten())
+        words=np.array(words)
+        words= words.flatten()
         sentences.append(words)
     sentences = np.array(sentences)
 
 
     return sentences
-
