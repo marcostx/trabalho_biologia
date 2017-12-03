@@ -17,7 +17,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 def create_recurrent_model(num_classes,inp_shape,simple=False):
-    epochs = 120
+    epochs = 150
 
     print('building model')
 
@@ -67,10 +67,10 @@ def train_and_evaluate(X,y,batch_size,splits,simple=False):
 
         if simple:
             model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:],simple=True)
-        else:            
+        else:
             model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
 
-        model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs,verbose=True,validation_data=(X_test,y_test))
+        model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs,verbose=False,validation_data=(X_test,y_test))
 
         pred = model.predict(X_test, verbose=0)
 
@@ -108,14 +108,14 @@ def train_and_evaluate_hold_out(X,y,batch_size,splits):
 
     model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
 
-    model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs,verbose=True,validation_data=(X_test,y_test))
+    model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs,verbose=False,validation_data=(X_test,y_test))
 
     pred = model.predict(X_test, verbose=0)
 
     pred = [np.argmax(item) for item in pred]
     y_test = [np.argmax(item) for item in y_test]
 
-    
+
 
     print("accuracy : ", accuracy_score(y_test, pred))
     print("precision : ", precision_score(y_test, pred, average='weighted'))
@@ -220,7 +220,7 @@ def simple_recurrent(datasets):
         print("f1 : mean={}, std={}".format(np.mean(results[3]),np.std(results[3])))
         print("\n")
 
-    
+
 
 if __name__ == '__main__':
     datasets=["H3-clean.csv","H4-clean.csv","H3K4me1-clean.csv",
@@ -235,7 +235,7 @@ if __name__ == '__main__':
 
     ARGS = parser.parse_args()
 
-    #X,y = load_csv(ARGS.input_dataset)
+
     splits=10
 
     if ARGS.batch_size:
@@ -243,11 +243,12 @@ if __name__ == '__main__':
     else:
         batch_size=128
 
-    #X = get_binary_words(X)
+    #
 
     if ARGS.cross_dataset:
         print("cross dataset experiment")
-        
+        X,y = load_csv(ARGS.input_dataset)
+        X = get_binary_words(X)
 
         model = cross_dataset_train(X,y,batch_size)
 
@@ -276,8 +277,3 @@ if __name__ == '__main__':
         print("recall : mean={}, std={}".format(np.mean(results[2]),np.std(results[2])))
         print("f1 : mean={}, std={}".format(np.mean(results[3]),np.std(results[3])))
         print("\n")
-
-
-
-
-

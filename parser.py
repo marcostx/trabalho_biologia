@@ -23,13 +23,18 @@ def load_csv(input_file='dataset.csv'):
             target   = val[0]
 
             # removing \t\t
-            
+
             preprocessed = sequence.replace(" ","")
             #preprocessed = preprocessed[1:-2]
             #print(preprocessed)
 
             X.append(preprocessed)
-            y.append(int(target))
+            if not target in available:
+                classes += 1
+                y.append(classes)
+                available.append(target)
+            else:
+                y.append(classes)
 
-    
+
     return X,np.array(y)
