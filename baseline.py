@@ -67,10 +67,10 @@ def cross_dataset_evaluation(model,X_b,y_b):
     y_b=to_categorical(y_b)
     X_b = X_b.reshape((X_b.shape[0],X_b.shape[2],X_b.shape[1],X_b.shape[3]))
     pred = model.predict(X_b, verbose=0)
-
+    
     pred = [np.argmax(item) for item in pred]
     y_b = [np.argmax(item) for item in y_b]
-
+    print(pred, y_b)
     print("CROSS-DATASET EVALUATION: ")
     print("accuracy : ", accuracy_score(y_b, pred))
     print("precision : ", precision_score(y_b, pred, average='weighted'))

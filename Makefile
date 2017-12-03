@@ -111,7 +111,7 @@ train t:
 	@echo "[Train] Trainning recurrent model"
 	@echo "\t Using CUDA_VISIBLE_DEVICES: "$(CUDA_VISIBLE_DEVICES)
 	@$(EXPORT_COMMAND) CUDA_VISIBLE_DEVICES=$(CUDA_VISIBLE_DEVICES)
-	@$(PYTHON_COMMAND) $(RECURRENT_FILE) -i $(DATASET) -c $(CROSS_DATAET)
+	@$(PYTHON_COMMAND) $(RECURRENT_FILE)
 
 baseline t:
 	@echo "[Train] Trainning baseline model [cross dataset]"
