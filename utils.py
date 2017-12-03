@@ -160,8 +160,8 @@ def get_binary_words(vector_sentences):
 
             word_rep = np.array(word_rep)
             words.append(word_rep.flatten())    
-        words=np.array(words)
-        words = words.flatten()
+        #words=np.array(words)
+        #words = words.flatten()
         sentences.append(words)
     sentences = np.array(sentences)
 

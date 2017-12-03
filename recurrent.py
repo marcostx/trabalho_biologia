@@ -31,7 +31,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 def create_recurrent_model(num_classes,inp_shape,simple=False):
-    epochs = 5
+    epochs = 30
 
     print('building model')
 
@@ -49,7 +49,7 @@ def create_recurrent_model(num_classes,inp_shape,simple=False):
 
     model.add(Dropout(0.5))
     model.add(Flatten())
-    model.add(Dense(300, activation='relu'))
+    model.add(Dense(100, activation='relu'))
 
     model.add(Dense(num_classes, activation='softmax'))
 
@@ -88,7 +88,7 @@ def train_and_evaluate(X,y,batch_size,splits,simple=False):
         else:            
             model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
 
-        model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=False,validation_data=(X_test,y_test))
+        model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, shuffle=True,verbose=True,validation_data=(X_test,y_test))
 
         pred = model.predict(X_test, verbose=0)
 
@@ -114,6 +114,32 @@ def train_and_evaluate(X,y,batch_size,splits,simple=False):
 
     return results
 
+def train_and_evaluate2(X,y,batch_size,splits):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # validation split
+
+    fold=0
+
+    y_train = to_categorical(y_train)
+    y_test  = to_categorical(y_test)
+
+    model, epochs = create_recurrent_model(y_train.shape[1],X_train.shape[1:])
+
+    model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs,verbose=True,validation_data=(X_test,y_test))
+
+    pred = model.predict(X_test, verbose=0)
+
+    pred = [np.argmax(item) for item in pred]
+    y_test = [np.argmax(item) for item in y_test]
+
+    
+
+    print("accuracy : ", accuracy_score(y_test, pred))
+    print("precision : ", precision_score(y_test, pred, average='weighted'))
+    print("recall : ", recall_score(y_test, pred, average='weighted'))
+    print("f1 : ", f1_score(y_test, pred, average='weighted'))
+    print("\n")
 
 def cross_dataset_train(X,y,batch_size):
 
@@ -191,15 +217,15 @@ if __name__ == '__main__':
         exit()
 
 
-    X,y = load_csv(ARGS.input_dataset)
+    #X,y = load_csv(ARGS.input_dataset)
     splits=10
 
     if ARGS.batch_size:
         batch_size=ARGS.batch_size
     else:
-        batch_size=128
+        batch_size=50
 
-    X = get_binary_words(X)
+    #X = get_binary_words(X)
 
     """if ARGS.cross_dataset:
         print("cross dataset experiment")
@@ -232,14 +258,14 @@ if __name__ == '__main__':
 
         X = get_binary_words(X)
 
-        results = train_and_evaluate(X,y,splits)
-
-        print("mean SVM metrics cv=10")
-        print("accuracy : mean={}, std={}".format(np.mean(results[0]),np.std(results[0])))
-        print("precision : mean={}, std={}".format(np.mean(results[1]),np.std(results[1])))
-        print("recall : mean={}, std={}".format(np.mean(results[2]),np.std(results[2])))
-        print("f1 : mean={}, std={}".format(np.mean(results[3]),np.std(results[3])))
-        print("\n")
+        #results = train_and_evaluate(X,y,batch_size,splits)
+        train_and_evaluate2(X,y,batch_size,splits)
+        #print("mean  metrics cv=10")
+        #print("accuracy : mean={}, std={}".format(np.mean(results[0]),np.std(results[0])))
+        #print("precision : mean={}, std={}".format(np.mean(results[1]),np.std(results[1])))
+        #print("recall : mean={}, std={}".format(np.mean(results[2]),np.std(results[2])))
+        #print("f1 : mean={}, std={}".format(np.mean(results[3]),np.std(results[3])))
+        #print("\n")
 
 
 
