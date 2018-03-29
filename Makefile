@@ -1,5 +1,5 @@
-# rcnn-fer Docker Makefile
-PROGRAM="kaggle-amazon"
+# DNA Docker Makefile
+PROGRAM="DNA classification"
 
 CPU_REGISTRY_URL=so77id
 GPU_REGISTRY_URL=so77id
@@ -71,9 +71,6 @@ endif
 ##############################################################################
 ############################## CODE VARS #####################################
 ##############################################################################
-# MODEL CHECKPOINTS URLS
-INCEPTION_CHECKPOINT_URL=https://github.com/kentsommer/keras-inceptionV4/releases/download/2.0/inception-v4_weights_tf_dim_ordering_tf_kernels.h5
-
 #COMMANDS
 PYTHON_COMMAND=python3
 EXPORT_COMMAND=export
@@ -82,11 +79,6 @@ TENSORBOARD_COMMAND=tensorboard
 WGET_COMMAND=wget
 MV_COMMAND=mv
 MKDIR_COMMAND=mkdir
-
-
-PREPROCESSING_FOLDER=./preprocessing
-IMAGENET_CHECKPOINTS_FOLDER=./imagenet_checkpoints
-
 
 DATASET="H3-clean.csv"
 CROSS_DATASET="H3K79me3-clean.csv"
@@ -99,11 +91,6 @@ NET_FILE=baseline_net.py
 ##############################################################################
 ############################ CODE COMMANDS ###################################
 ##############################################################################
-setup s: excuda-devise
-	@$(MKDIR_COMMAND) $(IMAGENET_CHECKPOINTS_FOLDER)
-	@$(WGET_COMMAND) https://github.com/kentsommer/keras-inceptionV4/releases/download/2.0/inception-v4_weights_tf_dim_ordering_tf_kernels.h5
-	@$(MV_COMMAND) inception-v4_weights_tf_dim_ordering_tf_kernels.h5 $(IMAGENET_CHECKPOINTS_FOLDER)
-
 
 train t:
 	@echo "[Train] Trainning recurrent model"
