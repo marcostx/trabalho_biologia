@@ -1,5 +1,5 @@
 import collections, sys
-from parser import load_csv
+#from parser import load_csv
 import numpy as np
 import argparse
 from keras.models import Sequential
